@@ -1,0 +1,38 @@
+{
+    "name": "mlocati/nexi",
+    "description": "An unofficial SDK for the Nexi payment gateway",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "nexi",
+        "xpay",
+        "x-pay"
+    ],
+    "authors": [
+        {
+            "name": "Michele Locati",
+            "email": "michele@locati.it"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MLocati\\Nexi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MLocati\\Nexi\\Test\\": "test/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">= 7.2",
+        "ext-json": "*"
+    },
+    "config": {
+        "optimize-autoloader" : true,
+        "preferred-install": "dist",
+        "sort-packages" : true
+    },
+    "$schema": "https://raw.githubusercontent.com/composer/composer/main/res/composer-schema.json"
+}

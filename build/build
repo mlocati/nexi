@@ -1,0 +1,57 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+use MLocati\Nexi\Build\API;
+use MLocati\Nexi\Build\UrlReader;
+use MLocati\Nexi\Build\LinkProvider;
+use MLocati\Nexi\Build\ParserManager;
+use MLocati\Nexi\Build\Writer;
+
+if (!in_array(PHP_SAPI, ['cli', 'phpdbg'], true)) {
+    echo "Invalid environment\n";
+    exit(1);
+}
+if (PHP_VERSION_ID < 80300) {
+    echo "This script requires PHP 8.3+\n";
+    exit(1);
+}
+
+set_error_handler(static function ($errno, $errstr): void {
+    throw new RuntimeException($errstr ?: "Error {$errno}");
+}, -1);
+
+spl_autoload_register(
+    static function ($class) {
+        if (!str_starts_with($class, 'MLocati\\Nexi\\Build\\')) {
+            return;
+        }
+        $file = __DIR__ . '/src' . str_replace('\\', '/', substr($class, strlen('MLocati\\Nexi\\Build'))) . '.php';
+        if (is_file($file)) {
+            require_once $file;
+        }
+    }
+);
+
+$urlReader = new UrlReader(__DIR__ . '/../tmp/cache');
+$linkProvider = new LinkProvider($urlReader);
+$api = new API();
+$parser = new ParserManager($api, $urlReader);
+$urls = array_merge(
+    $linkProvider->getUrls('https://developer.nexi.it/en/servizio-ecommerce/', ['https://developer.nexi.it/en/']),
+    [
+        'https://plugins.trac.wordpress.org/browser/cartasi-x-pay/trunk/src/classes/Nexi/WC_Gateway_NPG_Currency.php?format=txt',
+    ]
+);
+foreach ($urls as $url) {
+    echo "Parsing {$url}... ";
+    $parser->parse($url);
+    echo "done.\n";
+}
+echo 'Finalizing entities... ';
+$api->finalizeEntities();
+echo "done.\n";
+$writer = new Writer(__DIR__ . '/templates', __DIR__ . '/../src');
+echo 'Writing code... ';
+$writer->write($api);
+echo "done.\n";
