@@ -116,19 +116,22 @@ class Client
     /**
      * @param \MLocati\Nexi\Entity|\MLocati\Nexi\Entity[]|null $requestBody
      */
-    protected function invoke(string $method, string $url, int $headerFlags, $requestBody = null): HttpClient\Response
+    protected function invoke(string $method, string $url, int $headerFlags, $requestBody = null, string &$idempotencyKey = ''): HttpClient\Response
     {
-        $headers = $this->buildHeaders($headerFlags);
         if ($requestBody === null) {
             $requestBodyJson = '';
         } else {
-            $requestBodyJson = json_encode($requestBody, JSON_THROW_ON_ERROR);
+            $requestBodyJson = json_encode($requestBody, JSON_UNESCAPED_SLASHES);
+            if ($requestBodyJson === false) {
+                throw new \RuntimeException('Failed to create the JSON data: ' . (json_last_error_msg() ?: 'unknown reason'));
+            }
         }
+        $headers = $this->buildHeaders($method, $url, $requestBodyJson, $headerFlags, $idempotencyKey);
 
         return $this->httpClient->invoke($method, $url, $headers, $requestBodyJson);
     }
 
-    protected function buildHeaders(int $flags): array
+    protected function buildHeaders(string $method, string $url, string $requestBody, int $flags, string &$idempotencyKey): array
     {
         $headers = [
             'Content-Type' => 'application/json',
@@ -138,10 +141,13 @@ class Client
             $headers['X-Api-Key'] = $this->configuration->getApiKey();
         }
         if ($flags & /* <<HEADERFLAG_CORRELATIONID>> */ 0 /* <</HEADERFLAG_CORRELATIONID>> */) {
-            $headers['Correlation-Id'] = $this->correlationProvider->getCorrelationID();
+            $headers['Correlation-Id'] = $this->correlationProvider->getCorrelationID($method, $url, $requestBody);
         }
         if ($flags & /* <<HEADERFLAG_IDEMPOTENCYKEY>> */ 0 /* <</HEADERFLAG_IDEMPOTENCYKEY>> */) {
-            throw new \RuntimeException('@todo');
+            if ($idempotencyKey === '') {
+                $idempotencyKey = $this->generateIdempotencyKey();
+            }
+            $headers['Idempotency-Key'] = $idempotencyKey;
         }
 
         return $headers;
@@ -190,5 +196,13 @@ class Client
         }
 
         throw new Exception\ErrorResponse($response->getStatusCode(), "Request failed with return code {$response->getStatusCode()}");
+    }
+
+    /**
+     * Maximum length: 63 characters
+     */
+    protected function generateIdempotencyKey(): string
+    {
+        return bin2hex(random_bytes(31));
     }
 }

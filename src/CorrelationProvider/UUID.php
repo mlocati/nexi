@@ -18,7 +18,7 @@ class UUID implements CorrelationProvider
      *
      * @see \MLocati\Nexi\CorrelationProvider::getCorrelationID()
      */
-    public function getCorrelationID(): string
+    public function getCorrelationID(string $method, string $url, string $requestBody): string
     {
         return uuid_create(UUID_TYPE_DEFAULT);
     }

@@ -13,7 +13,7 @@ class Random implements CorrelationProvider
      *
      * @see \MLocati\Nexi\CorrelationProvider::getCorrelationID()
      */
-    public function getCorrelationID(): string
+    public function getCorrelationID(string $method, string $url, string $requestBody): string
     {
         // Limit on 32-bit systems is 7FFFFFFF
         return sprintf(

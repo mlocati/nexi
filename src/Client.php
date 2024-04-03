@@ -298,6 +298,8 @@ class Client
     /**
      * MIT (Merchant Initiated Transaction) payment, a recurring payment method used in services such as subscriptions. For more information, please refer to the dedicated page Recurring Payments.
      *
+     * @param string $idempotencyKey an identifier of the request (to be used on subsequent retries); if empty, it will be set as output
+     *
      * @see https://developer.nexi.it/en/api/post-orders-mit
      *
      * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
@@ -307,10 +309,10 @@ class Client
      * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
      * @throws \MLocati\Nexi\Exception\ErrorResponse
      */
-    public function createOrderForMerchantInitiatedTransaction(Entity\CreateOrderForMerchantInitiatedTransaction\Request $requestBody): Entity\OperationResult
+    public function createOrderForMerchantInitiatedTransaction(Entity\CreateOrderForMerchantInitiatedTransaction\Request $requestBody, string &$idempotencyKey = ''): Entity\OperationResult
     {
         $url = $this->buildUrl('/orders/mit');
-        $response = $this->invoke('POST', $url, 7, $requestBody);
+        $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
             $data = $this->decodeJsonToArray($response->getBody());
 
@@ -675,6 +677,7 @@ class Client
      * Partial/total refund or cancellation based on the order status. For more information on operations, please refer to the dedicated page Operations.
      *
      * @param string $operationId Identification code of the operation.
+     * @param string $idempotencyKey an identifier of the request (to be used on subsequent retries); if empty, it will be set as output
      *
      * @see https://developer.nexi.it/en/api/post-operations-operationId-refunds
      *
@@ -687,10 +690,10 @@ class Client
      *
      * @return \MLocati\Nexi\Entity\OperationInfo|null returns NULL if not found
      */
-    public function refund(string $operationId, Entity\AmountWithDescription $requestBody): ?Entity\OperationInfo
+    public function refund(string $operationId, Entity\AmountWithDescription $requestBody, string &$idempotencyKey = ''): ?Entity\OperationInfo
     {
         $url = $this->buildUrl('/operations/{operationId}/refunds', ['operationId' => $operationId]);
-        $response = $this->invoke('POST', $url, 7, $requestBody);
+        $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
             $data = $this->decodeJsonToArray($response->getBody());
 
@@ -710,6 +713,7 @@ class Client
      * Partial or total accounting. For more information on operations, refer to the dedicated page Operations..
      *
      * @param string $operationId Identification code of the operation.
+     * @param string $idempotencyKey an identifier of the request (to be used on subsequent retries); if empty, it will be set as output
      *
      * @see https://developer.nexi.it/en/api/post-operations-operationId-captures
      *
@@ -722,10 +726,10 @@ class Client
      *
      * @return \MLocati\Nexi\Entity\OperationInfo|null returns NULL if not found
      */
-    public function capture(string $operationId, Entity\AmountWithDescription $requestBody): ?Entity\OperationInfo
+    public function capture(string $operationId, Entity\AmountWithDescription $requestBody, string &$idempotencyKey = ''): ?Entity\OperationInfo
     {
         $url = $this->buildUrl('/operations/{operationId}/captures', ['operationId' => $operationId]);
-        $response = $this->invoke('POST', $url, 7, $requestBody);
+        $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
             $data = $this->decodeJsonToArray($response->getBody());
 
@@ -924,6 +928,8 @@ class Client
     /**
      * Incremental of a pre-authorization.
      *
+     * @param string $idempotencyKey an identifier of the request (to be used on subsequent retries); if empty, it will be set as output
+     *
      * @see https://developer.nexi.it/en/api/post-incrementals
      *
      * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
@@ -933,10 +939,10 @@ class Client
      * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
      * @throws \MLocati\Nexi\Exception\ErrorResponse
      */
-    public function incrementOrder(Entity\ChangeAmountRequest $requestBody): Entity\OperationResult
+    public function incrementOrder(Entity\ChangeAmountRequest $requestBody, string &$idempotencyKey = ''): Entity\OperationResult
     {
         $url = $this->buildUrl('/incrementals');
-        $response = $this->invoke('POST', $url, 7, $requestBody);
+        $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
             $data = $this->decodeJsonToArray($response->getBody());
 
@@ -985,6 +991,8 @@ class Client
     /**
      * Possibility of making additional charges for example for a customer who has used the mini bar or has caused damage to the property.
      *
+     * @param string $idempotencyKey an identifier of the request (to be used on subsequent retries); if empty, it will be set as output
+     *
      * @see https://developer.nexi.it/en/api/post-delay_charges
      *
      * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
@@ -994,10 +1002,10 @@ class Client
      * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
      * @throws \MLocati\Nexi\Exception\ErrorResponse
      */
-    public function delayedCharge(Entity\ChangeAmountRequest $requestBody): Entity\OperationResult
+    public function delayedCharge(Entity\ChangeAmountRequest $requestBody, string &$idempotencyKey = ''): Entity\OperationResult
     {
         $url = $this->buildUrl('/delay_charges');
-        $response = $this->invoke('POST', $url, 7, $requestBody);
+        $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
             $data = $this->decodeJsonToArray($response->getBody());
 
@@ -1013,6 +1021,8 @@ class Client
     /**
      * If the customer does not show up and the reservation has not been canceled within the defined terms and conditions, you can charge the card for the amount corresponding to an overnight stay.
      *
+     * @param string $idempotencyKey an identifier of the request (to be used on subsequent retries); if empty, it will be set as output
+     *
      * @see https://developer.nexi.it/en/api/post-no_shows
      *
      * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
@@ -1022,10 +1032,10 @@ class Client
      * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
      * @throws \MLocati\Nexi\Exception\ErrorResponse
      */
-    public function noShowCharge(Entity\ChangeAmountRequest $requestBody): Entity\OperationResult
+    public function noShowCharge(Entity\ChangeAmountRequest $requestBody, string &$idempotencyKey = ''): Entity\OperationResult
     {
         $url = $this->buildUrl('/no_shows');
-        $response = $this->invoke('POST', $url, 7, $requestBody);
+        $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
             $data = $this->decodeJsonToArray($response->getBody());
 
@@ -1589,6 +1599,7 @@ class Client
      * Recurring Payment (MIT) on a reservation.
      *
      * @param string $reservationId Reservation identification code.
+     * @param string $idempotencyKey an identifier of the request (to be used on subsequent retries); if empty, it will be set as output
      *
      * @see https://developer.nexi.it/en/api/post-reservation-reservationId-mit
      *
@@ -1599,10 +1610,10 @@ class Client
      * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
      * @throws \MLocati\Nexi\Exception\ErrorResponse
      */
-    public function payRecurringReservation(string $reservationId, Entity\PayRecurringReservation\Request $requestBody): void
+    public function payRecurringReservation(string $reservationId, Entity\PayRecurringReservation\Request $requestBody, string &$idempotencyKey = ''): void
     {
         $url = $this->buildUrl('/reservation/{reservationId}/mit', ['reservationId' => $reservationId]);
-        $response = $this->invoke('POST', $url, 7, $requestBody);
+        $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
             return;
         }
@@ -1665,19 +1676,22 @@ class Client
     /**
      * @param \MLocati\Nexi\Entity|\MLocati\Nexi\Entity[]|null $requestBody
      */
-    protected function invoke(string $method, string $url, int $headerFlags, $requestBody = null): HttpClient\Response
+    protected function invoke(string $method, string $url, int $headerFlags, $requestBody = null, string &$idempotencyKey = ''): HttpClient\Response
     {
-        $headers = $this->buildHeaders($headerFlags);
         if ($requestBody === null) {
             $requestBodyJson = '';
         } else {
-            $requestBodyJson = json_encode($requestBody, JSON_THROW_ON_ERROR);
+            $requestBodyJson = json_encode($requestBody, JSON_UNESCAPED_SLASHES);
+            if ($requestBodyJson === false) {
+                throw new \RuntimeException('Failed to create the JSON data: ' . (json_last_error_msg() ?: 'unknown reason'));
+            }
         }
+        $headers = $this->buildHeaders($method, $url, $requestBodyJson, $headerFlags, $idempotencyKey);
 
         return $this->httpClient->invoke($method, $url, $headers, $requestBodyJson);
     }
 
-    protected function buildHeaders(int $flags): array
+    protected function buildHeaders(string $method, string $url, string $requestBody, int $flags, string &$idempotencyKey): array
     {
         $headers = [
             'Content-Type' => 'application/json',
@@ -1687,10 +1701,13 @@ class Client
             $headers['X-Api-Key'] = $this->configuration->getApiKey();
         }
         if ($flags & 2) {
-            $headers['Correlation-Id'] = $this->correlationProvider->getCorrelationID();
+            $headers['Correlation-Id'] = $this->correlationProvider->getCorrelationID($method, $url, $requestBody);
         }
         if ($flags & 4) {
-            throw new \RuntimeException('@todo');
+            if ($idempotencyKey === '') {
+                $idempotencyKey = $this->generateIdempotencyKey();
+            }
+            $headers['Idempotency-Key'] = $idempotencyKey;
         }
 
         return $headers;
@@ -1739,5 +1756,13 @@ class Client
         }
 
         throw new Exception\ErrorResponse($response->getStatusCode(), "Request failed with return code {$response->getStatusCode()}");
+    }
+
+    /**
+     * Maximum length: 63 characters
+     */
+    protected function generateIdempotencyKey(): string
+    {
+        return bin2hex(random_bytes(31));
     }
 }

@@ -609,6 +609,7 @@ class Writer
         $bodyType = $method->getBodyType();
         $successType = $method->getSuccessType();
         $errorCases = $method->getErrorCases();
+        $hasIdempotencyKey = ($method->headerFlags & Method::HEADERFLAG_IDEMPOTENCYKEY) === Method::HEADERFLAG_IDEMPOTENCYKEY;
         $phpDocParams = [];
         $phpParams = [];
         foreach ($method->getPathFields() as $field) {
@@ -641,8 +642,11 @@ class Writer
             if ($queryType->isArrayOf) {
                 throw new RuntimeException('Not implemented');
             }
-
             $phpParams[] = ($queryTypeRequired ? '' : '?') . 'Entity\\' . $queryType->entity->name . ' $query' . ($queryTypeRequired ? '' : ' = null');
+        }
+        if ($hasIdempotencyKey) {
+            $phpDocParams[] = '@param string $idempotencyKey an identifier of the request (to be used on subsequent retries); if empty, it will be set as output';
+            $phpParams[] = 'string &$idempotencyKey = \'\'';
         }
         $commentChunks = [];
         if ($method->description !== []) {
@@ -717,7 +721,15 @@ class Writer
             }
         }
         $result[] = '    $url = $this->buildUrl(' . implode(', ', $buildUrlParams) . ');';
-        $result[] = "    \$response = \$this->invoke('{$method->verb->value}', \$url, {$method->headerFlags}" . ($bodyType === null ? '' : ', $requestBody') . ');';
+        $invoke = "\$response = \$this->invoke('{$method->verb->value}', \$url, {$method->headerFlags}";
+        if ($bodyType !== null || $hasIdempotencyKey) {
+            $invoke .= ', ' . ($bodyType === null ? 'null' : '$requestBody');
+            if ($hasIdempotencyKey) {
+                $invoke .= ', $idempotencyKey';
+            }
+        }
+        $invoke .= ');';
+        $result[] = "    {$invoke}";
         if ($successType === null) {
             $result[] = '    if ($response->getStatusCode() === 200) {';
             if ($method->isReturnNullOn404()) {
