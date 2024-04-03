@@ -2,3 +2,6 @@
 /vendor/
 /.php-cs-fixer.cache
 /composer.lock
+/.phpunit.result.cache
+/code-coverage.xml
+/php-coveralls.phar
