@@ -8,9 +8,7 @@ use ReflectionClass;
 
 /* <<TOPCOMMENT>> */
 
-/**
- * List of ISO 8583 response codes.
- */
+/* <<CLASS_PHPDOC>> */
 class ResponseCode
 {
     /* <<IDS>> */

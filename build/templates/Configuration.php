@@ -8,27 +8,28 @@ namespace MLocati\Nexi;
 
 interface Configuration
 {
-    /**
-     * This is the default URL to be used for tests.
-     *
-     * @var string
-     */
+    /* <<TEST_URL_PHPDOC>> */
     const DEFAULT_BASEURL_TEST = '/* <<TEST_URL>> */';
 
-    /**
-     * This is the default URL to be used in production.
-     *
-     * @var string
-     */
+    /* <<PRODUCTION_URL_PHPDOC>> */
     const DEFAULT_BASEURL_PRODUCTION = '/* <<PRODUCTION_URL>> */';
+
+    /* <<TEST_APIKEY_PHPDOC>> */
+    const DEFAULT_APIKEY_TEST = '/* <<TEST_APIKEY>> */';
 
     /**
      * Get the API key.
      */
-    public function getBaseURL(): string;
+    public function getBaseUrl(): string;
 
     /**
      * Get the API key.
      */
     public function getApiKey(): string;
+
+    /**
+     * Allow unsafe HTTPS connections.
+     * Use with caution!
+     */
+    public function allowUnsafeHttps(): bool;
 }

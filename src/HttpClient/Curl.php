@@ -9,6 +9,16 @@ use MLocati\Nexi\HttpClient;
 
 class Curl implements HttpClient
 {
+    /**
+     * @var int
+     */
+    private $flags;
+
+    public function __construct(int $flags = 0)
+    {
+        $this->flags = $flags;
+    }
+
     public static function isAvailable(): bool
     {
         return extension_loaded('curl');
@@ -58,6 +68,12 @@ class Curl implements HttpClient
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FAILONERROR => false,
         ];
+        if (($this->flags & static::FLAG_ALLOWINSECUREHTTPS) === static::FLAG_ALLOWINSECUREHTTPS) {
+            $options += [
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_SSL_VERIFYPEER => 0,
+            ];
+        }
         if ($rawBody !== '') {
             $options[CURLOPT_POSTFIELDS] = $rawBody;
         }

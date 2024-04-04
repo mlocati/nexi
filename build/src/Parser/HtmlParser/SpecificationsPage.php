@@ -32,18 +32,8 @@ class SpecificationsPage extends HtmlParser
     public function parseDoc(string $see, string $path, DOMDocument $page, API $api): void
     {
         $table = $this->findTableWithUrls($page);
-        $baseUrlProduction = $this->findUrl($table, 'Production url');
-        if ($api->baseUrlProduction === '' || $api->baseUrlProduction === $baseUrlProduction) {
-            $api->baseUrlProduction = $baseUrlProduction;
-        } else {
-            throw new RuntimeException("More than one production URLS:\n{$api->baseUrlProduction}\n{$baseUrlProduction}");
-        }
-        $baseUrlTest = $this->findUrl($table, 'Test url');
-        if ($api->baseUrlTest === '' || $api->baseUrlProduction === $baseUrlTest) {
-            $api->baseUrlTest = $baseUrlTest;
-        } else {
-            throw new RuntimeException("More than one production URLS:\n{$api->baseUrlTest}\n{$baseUrlTest}");
-        }
+        $api->setBaseUrlTest($see, $this->findUrl($table, 'Test url'));
+        $api->setBaseUrlProduction($see, $this->findUrl($table, 'Production url'));
     }
 
     private function findTableWithUrls(DOMDocument $page): DOMElement

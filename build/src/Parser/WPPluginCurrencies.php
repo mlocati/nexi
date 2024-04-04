@@ -51,7 +51,7 @@ class WPPluginCurrencies implements Parser
             throw new RuntimeException('Dictionary not found');
         }
         ksort($dictionary, SORT_STRING);
-        $api->setCurrencyDecimals($dictionary);
+        $api->setCurrencyDecimals($see, $dictionary);
     }
 
     private function getClassRange(array $tokens): array

@@ -7,7 +7,7 @@ namespace MLocati\Nexi\HttpClient;
 class Response
 {
     /**
-     * @var int|null
+     * @var int
      */
     private $statusCode;
 
@@ -16,13 +16,13 @@ class Response
      */
     private $body;
 
-    public function __construct(?int $statusCode, string $body)
+    public function __construct(int $statusCode, string $body)
     {
         $this->statusCode = $statusCode;
         $this->body = $body;
     }
 
-    public function getStatusCode(): ?int
+    public function getStatusCode(): int
     {
         return $this->statusCode;
     }

@@ -8,9 +8,7 @@ use ReflectionClass;
 
 /* <<TOPCOMMENT>> */
 
-/**
- * List of error codes.
- */
+/* <<CLASS_PHPDOC>> */
 class ErrorCode
 {
     /* <<IDS>> */

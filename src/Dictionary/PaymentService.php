@@ -14,6 +14,8 @@ use ReflectionClass;
 
 /**
  * List of payment services supported by Nexi.
+ *
+ * @see https://developer.nexi.it/en/altro-/codifiche/codifica-language
  */
 class PaymentService
 {

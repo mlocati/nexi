@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MLocati\Nexi\Exception;
 
 use MLocati\Nexi\Exception;
+use stdClass;
 
 /**
  * Exception thrown when a field is not of an expected type.
@@ -21,17 +22,14 @@ class WrongFieldType extends Exception
      */
     private $expectedType;
 
-    /**
-     * @var string
-     */
-    private $actualType;
+    private $actualValue;
 
-    public function __construct(string $field, string $expectedType, string $actualType, string $message = '')
+    public function __construct(string $field, string $expectedType, $actualValue, string $message = '')
     {
-        parent::__construct($message ?: "The field {$field} has the wrong type (expected: {$expectedType}, found: {$actualType})");
         $this->field = $field;
         $this->expectedType = $expectedType;
-        $this->actualType = $actualType;
+        $this->actualValue = $actualValue;
+        parent::__construct($message ?: "The field {$field} has the wrong type (expected: {$expectedType}, found: {$this->getActualType()})");
     }
 
     /**
@@ -55,6 +53,16 @@ class WrongFieldType extends Exception
      */
     public function getActualType(): string
     {
-        return $this->actualType;
+        $type = gettype($this->actualValue);
+
+        return $type !== 'object' || $this->actualValue instanceof stdClass ? $type : get_class($this->actualValue);
+    }
+
+    /**
+     * Get the actual value of the field value.
+     */
+    public function getActualValue(): string
+    {
+        return $this->actualValue;
     }
 }

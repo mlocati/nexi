@@ -6,35 +6,58 @@ namespace MLocati\Nexi;
 
 use Closure;
 use JsonSerializable;
+use stdClass;
 
 abstract class Entity implements JsonSerializable
 {
     /**
-     * @var array
+     * @var \stdClass
      */
     private $data;
 
-    public function __construct(array $data = [])
+    public function __construct(?stdClass $data = null)
     {
-        $this->data = [];
+        $this->data = $data ?? new stdClass();
+    }
+
+    public function __clone()
+    {
+        $this->data = unserialize(serialize($this->data));
     }
 
     /**
      * {@inheritdoc}
      *
      * @see \JsonSerializable::jsonSerialize()
-     *
-     * @return array|\stdClass
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
-    {
-        return $this->data === [] ? new \stdClass() : $this->data;
-    }
-
-    protected function _getRawData(): array
+    public function jsonSerialize(): stdClass
     {
         return $this->data;
+    }
+
+    protected function _getRawData(): stdClass
+    {
+        return $this->data;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function _set(string $fieldName, $value): self
+    {
+        $this->data->{$fieldName} = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function _unset(string $fieldName): self
+    {
+        unset($this->data->{$fieldName});
+
+        return $this;
     }
 
     /**
@@ -58,9 +81,8 @@ abstract class Entity implements JsonSerializable
             $fieldName,
             $required,
             static function ($value) use ($fieldName): string {
-                $type = gettype($value);
-                if ($type !== 'string') {
-                    throw new Exception\WrongFieldType($fieldName, 'string', $type);
+                if (gettype($value) !== 'string') {
+                    throw new Exception\WrongFieldType($fieldName, 'string', $value);
                 }
 
                 return $value;
@@ -89,9 +111,8 @@ abstract class Entity implements JsonSerializable
             $fieldName,
             $required,
             static function ($value) use ($fieldName): int {
-                $type = gettype($value);
-                if ($type !== 'integer') {
-                    throw new Exception\WrongFieldType($fieldName, 'integer', $type);
+                if (gettype($value) !== 'integer') {
+                    throw new Exception\WrongFieldType($fieldName, 'integer', $value);
                 }
 
                 return $value;
@@ -105,26 +126,19 @@ abstract class Entity implements JsonSerializable
      */
     protected function _getBool(string $fieldName, bool $allow01 = false, bool $required = false): ?bool
     {
-        $initialException = null;
         try {
             return $this->_get($fieldName, ['boolean'], $required);
         } catch (Exception\WrongFieldType $x) {
-            if ($allow01 === false || $x->getActualType() !== 'integer') {
-                throw $x;
+            if ($allow01) {
+                if ($x->getActualValue() === 0) {
+                    return false;
+                }
+                if ($x->getActualValue() === 1) {
+                    return true;
+                }
             }
-            $initialException = $x;
+            throw $x;
         }
-        if ($allow01) {
-            $int = $this->_get($fieldName, ['integer'], true);
-            if ($int === 0) {
-                return false;
-            }
-            if ($int === 1) {
-                return true;
-            }
-        }
-
-        throw $initialException;
     }
 
     /**
@@ -139,11 +153,10 @@ abstract class Entity implements JsonSerializable
             $fieldName,
             $required,
             static function ($value) use ($fieldName, $allow01): bool {
-                $type = gettype($value);
-                if ($type === 'boolean') {
+                if (gettype($value) === 'boolean') {
                     return $value;
                 }
-                if ($allow01 && $type === 'integer') {
+                if ($allow01) {
                     if ($value === 0) {
                         return false;
                     }
@@ -151,7 +164,7 @@ abstract class Entity implements JsonSerializable
                         return true;
                     }
                 }
-                throw new Exception\WrongFieldType($fieldName, 'boolean', $type);
+                throw new Exception\WrongFieldType($fieldName, 'boolean', $value);
             }
         );
     }
@@ -162,20 +175,20 @@ abstract class Entity implements JsonSerializable
      */
     protected function _getEntity(string $fieldName, string $className, bool $required = false): ?Entity
     {
-        $value = $this->_get($fieldName, ['array', 'object'], $required);
+        $value = $this->_get($fieldName, ['object'], $required);
         if ($value === null) {
             return null;
         }
-        if (is_array($value)) {
+        if ($value instanceof stdClass) {
             $value = new $className($value);
-            $this->data[$fieldName] = $value;
+            $this->_set($fieldName, $value);
 
             return $value;
         }
         if ($value instanceof $className) {
             return $value;
         }
-        throw new Exception\WrongFieldType($fieldName, $className, get_class($value));
+        throw new Exception\WrongFieldType($fieldName, $className, $value);
     }
 
     /**
@@ -190,21 +203,17 @@ abstract class Entity implements JsonSerializable
             $fieldName,
             $required,
             static function ($value) use ($fieldName, $className): Entity {
-                $type = gettype($value);
-                if ($type === 'array') {
+                if ($value instanceof $className) {
+                    return $value;
+                }
+                if ($value instanceof stdClass) {
                     return new $className($value);
                 }
-                if ($type === 'object') {
-                    if ($value instanceof $className) {
-                        return $value;
-                    }
-                    throw new Exception\WrongFieldType($fieldName, $className, get_class($value));
-                }
-                throw new Exception\WrongFieldType($fieldName, 'object|array', $type);
+                throw new Exception\WrongFieldType($fieldName, is_object($value) ? $className : 'object', $value);
             }
         );
         if ($array !== null) {
-            $this->data[$fieldName] = $array;
+            $this->_set($fieldName, $array);
         }
 
         return $array;
@@ -233,34 +242,13 @@ abstract class Entity implements JsonSerializable
             $fieldName,
             $required,
             static function ($value) use ($fieldName) {
-                $type = gettype($value);
-                if (!in_array($type, ['array', 'object'], true)) {
-                    throw new Exception\WrongFieldType($fieldName, 'object|array', $type);
+                if (!in_array(gettype($value), ['array', 'object'], true)) {
+                    throw new Exception\WrongFieldType($fieldName, 'object|array', $value);
                 }
 
                 return $value;
             }
         );
-    }
-
-    /**
-     * @return $this
-     */
-    protected function _unset(string $fieldName): self
-    {
-        unset($this->data[$fieldName]);
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    protected function _set(string $fieldName, $value): self
-    {
-        $this->data[$fieldName] = $value;
-
-        return $this;
     }
 
     /**
@@ -305,8 +293,8 @@ abstract class Entity implements JsonSerializable
             ['object'],
             $value,
             static function (object $instance) use ($fieldName, $className): void {
-                if (!is_a($instance, $className, true)) {
-                    throw new Exception\WrongFieldType($fieldName, $className, get_class($instance));
+                if (!$instance instanceof $className) {
+                    throw new Exception\WrongFieldType($fieldName, $className, $instance);
                 }
             }
         );
@@ -319,9 +307,8 @@ abstract class Entity implements JsonSerializable
      */
     protected function _setCustomObject(string $fieldName, $value): self
     {
-        $type = gettype($value);
-        if (!in_array($type, ['array', 'object'], true)) {
-            throw new Exception\WrongFieldType($fieldName, 'array|object', $type);
+        if (!in_array(gettype($value), ['array', 'object'], true)) {
+            throw new Exception\WrongFieldType($fieldName, 'array|object', $value);
         }
 
         return $this->_set($fieldName, $value);
@@ -343,7 +330,7 @@ abstract class Entity implements JsonSerializable
      */
     private function _get(string $fieldName, array $types, bool $required)
     {
-        $value = $this->data[$fieldName] ?? null;
+        $value = $this->data->{$fieldName} ?? null;
         if ($value === null) {
             if ($required) {
                 throw new Exception\MissingField($fieldName);
@@ -351,9 +338,8 @@ abstract class Entity implements JsonSerializable
 
             return null;
         }
-        $type = gettype($value);
-        if (!in_array($type, $types, true)) {
-            throw new Exception\WrongFieldType($fieldName, implode('|', $types), $type);
+        if (!in_array(gettype($value), $types, true)) {
+            throw new Exception\WrongFieldType($fieldName, implode('|', $types), $value);
         }
 
         return $value;
@@ -375,14 +361,15 @@ abstract class Entity implements JsonSerializable
 
     /**
      * @throws \MLocati\Nexi\Exception\MissingField
+     *
+     * @return $this
      */
-    private function _setArray(string $fieldName, array $types, array $value, ?Closure $callback = null): ?array
+    private function _setArray(string $fieldName, array $types, array $value, ?Closure $callback = null): self
     {
         array_map(
             static function ($item) use ($fieldName, $types, $callback) {
-                $type = gettype($item);
-                if (!in_array($type, $types, true)) {
-                    throw new Exception\WrongFieldType($fieldName, implode('|', $types), $type);
+                if (!in_array(gettype($item), $types, true)) {
+                    throw new Exception\WrongFieldType($fieldName, implode('|', $types), $item);
                 }
                 if ($callback !== null) {
                     $callback($item);
@@ -391,6 +378,6 @@ abstract class Entity implements JsonSerializable
             $value
         );
 
-        return $this->set($fieldName, array_values($value));
+        return $this->_set($fieldName, array_values($value));
     }
 }

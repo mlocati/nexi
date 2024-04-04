@@ -8,9 +8,7 @@ use ReflectionClass;
 
 /* <<TOPCOMMENT>> */
 
-/**
- * List of ISO 639-2 codes of the languages supported by Nexi.
- */
+/* <<CLASS_PHPDOC>> */
 class Language
 {
     /* <<IDS>> */

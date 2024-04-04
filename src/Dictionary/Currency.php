@@ -15,6 +15,8 @@ use RuntimeException;
 
 /**
  * List of currencies supported by Nexi.
+ *
+ * @see https://developer.nexi.it/en/altro-/codifiche/elenco-valute
  */
 class Currency
 {
@@ -412,8 +414,6 @@ class Currency
 
     /**
      * @see https://plugins.trac.wordpress.org/browser/cartasi-x-pay/trunk/src/classes/Nexi/WC_Gateway_NPG_Currency.php?format=txt
-     *
-     * @private
      */
     const MOVE_DECIMALS = [
         self::ID_AED => 2,

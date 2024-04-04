@@ -14,6 +14,8 @@ use ReflectionClass;
 
 /**
  * List of ISO 8583 response codes.
+ *
+ * @see https://developer.nexi.it/en/altro-/codifiche/codifica-language
  */
 class ResponseCode
 {

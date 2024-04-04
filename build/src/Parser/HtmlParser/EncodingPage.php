@@ -31,19 +31,19 @@ class EncodingPage extends HtmlParser
     {
         switch ($path) {
             case '/en/altro-/codifiche/codifica-language':
-                $api->setLanguages($this->extractLanguages($page));
+                $api->setLanguages($see, $this->extractLanguages($page));
                 break;
             case '/en/altro-/codifiche/codici-errore':
-                $api->setErrorCodes($this->extractErrorCodes($page));
+                $api->setErrorCodes($see, $this->extractErrorCodes($page));
                 break;
             case '/en/altro-/codifiche/elenco-valute':
-                $api->setCurrencies($this->extractCurrencies($page));
+                $api->setCurrencies($see, $this->extractCurrencies($page));
                 break;
             case '/en/altro-/codifiche/codifica-paymentservice':
-                $api->setPaymentServices($this->extractPaymentServices($page));
+                $api->setPaymentServices($see, $this->extractPaymentServices($page));
                 break;
             case '/en/altro-/codifiche/Response-Code-ISO':
-                $api->setISO8583ResponseCodes($this->extractISO8583ResponseCodes($page));
+                $api->setISO8583ResponseCodes($see, $this->extractISO8583ResponseCodes($page));
                 break;
             default:
                 throw new RuntimeException("Unrecognized dictionary page: {$path}");

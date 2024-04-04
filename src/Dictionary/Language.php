@@ -14,6 +14,8 @@ use ReflectionClass;
 
 /**
  * List of ISO 639-2 codes of the languages supported by Nexi.
+ *
+ * @see https://developer.nexi.it/en/altro-/codifiche/codifica-language
  */
 class Language
 {

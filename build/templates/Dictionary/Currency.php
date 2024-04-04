@@ -9,18 +9,12 @@ use RuntimeException;
 
 /* <<TOPCOMMENT>> */
 
-/**
- * List of currencies supported by Nexi.
- */
+/* <<CLASS_PHPDOC>> */
 class Currency
 {
     /* <<IDS>> */
 
-    /**
-     * @see https://plugins.trac.wordpress.org/browser/cartasi-x-pay/trunk/src/classes/Nexi/WC_Gateway_NPG_Currency.php?format=txt
-     *
-     * @private
-     */
+    /* <<MOVE_DECIMALS_DOC>> */
     const MOVE_DECIMALS = [
         /* <<MOVE_DECIMALS>> */
     ];

@@ -46,15 +46,61 @@ class Writer
 
     private function writeConfiguration(API $api): void
     {
-        if ($api->baseUrlTest === '') {
+        $baseUrlTest = $api->getBaseUrlTest();
+        if ($baseUrlTest === '') {
             throw new RuntimeException('Missing base URL for test');
         }
-        if ($api->baseUrlProduction === '') {
+        $baseUrlTestSource = $api->getBaseUrlTestSource();
+        if ($baseUrlTestSource === '') {
+            throw new RuntimeException('Missing source of base URL for test');
+        }
+        $baseUrlProduction = $api->getBaseUrlProduction();
+        if ($baseUrlProduction === '') {
             throw new RuntimeException('Missing base URL for production');
         }
+        $baseUrlProductionSource = $api->getBaseUrlProductionSource();
+        if ($baseUrlProductionSource === '') {
+            throw new RuntimeException('Missing source of base URL for production');
+        }
+        $apiKeyTest = $api->getApiKeyTest();
+        if ($apiKeyTest === '') {
+            throw new RuntimeException('Missing API key for test');
+        }
+        $apiKeyTestSource = $api->getApiKeyTestSource();
+        if ($apiKeyTestSource === '') {
+            throw new RuntimeException('Missing source of API key for test');
+        }
         $template = Writer\Template::fromFile("{$this->templatesDirectory}/Configuration.php");
-        $template->fillPlaceholder('TEST_URL', [$api->baseUrlTest], false);
-        $template->fillPlaceholder('PRODUCTION_URL', [$api->baseUrlProduction], false);
+        $template->fillPlaceholder('TEST_URL_PHPDOC', [
+            '/**',
+            ' * This is the default URL to be used for tests.',
+            ' *',
+            " * @see {$baseUrlTestSource}",
+            ' *',
+            ' * @var string',
+            ' */',
+        ]);
+        $template->fillPlaceholder('TEST_URL', [$baseUrlTest], false);
+        $template->fillPlaceholder('PRODUCTION_URL_PHPDOC', [
+            '/**',
+            ' * This is the default URL to be used in production.',
+            ' *',
+            " * @see {$baseUrlProductionSource}",
+            ' *',
+            ' * @var string',
+            ' */',
+        ]);
+        $template->fillPlaceholder('PRODUCTION_URL', [$baseUrlProduction], false);
+        $template->fillPlaceholder('TEST_APIKEY_PHPDOC', [
+            '/**',
+            ' * This is an API key you can use for tests.',
+            ' *',
+            " * @see {$apiKeyTestSource}",
+            ' *',
+            ' * @var string',
+            ' */',
+        ]);
+        $template->fillPlaceholder('TEST_APIKEY', [$apiKeyTest], false);
         $template->save("{$this->outputDirectory}/Configuration.php");
     }
 
@@ -64,7 +110,18 @@ class Writer
         if ($value === null || $value === []) {
             throw new RuntimeException('Missing or empty languages');
         }
+        $source = $api->getLanguagesSource();
+        if ($source === '') {
+            throw new RuntimeException('Missing languages source');
+        }
         $template = Writer\Template::fromFile("{$this->templatesDirectory}/Dictionary/Language.php");
+        $template->fillPlaceholder('CLASS_PHPDOC', [
+            '/**',
+            ' * List of ISO 639-2 codes of the languages supported by Nexi.',
+            ' *',
+            " * @see {$source}",
+            ' */',
+        ]);
         $lines = [];
         foreach ($value as $key => $name) {
             if ($lines !== []) {
@@ -88,7 +145,18 @@ class Writer
         if ($value === null || $value === []) {
             throw new RuntimeException('Missing or empty error codes');
         }
+        $source = $api->getErrorCodesSource();
+        if ($source === '') {
+            throw new RuntimeException('Missing error codes source');
+        }
         $template = Writer\Template::fromFile("{$this->templatesDirectory}/Dictionary/ErrorCode.php");
+        $template->fillPlaceholder('CLASS_PHPDOC', [
+            '/**',
+            ' * List of error codes.',
+            ' *',
+            " * @see {$source}",
+            ' */',
+        ]);
         $lines = [];
         foreach ($value as $key => $name) {
             if ($lines !== []) {
@@ -109,10 +177,10 @@ class Writer
     private function writeCurrencies(API $api): void
     {
         $dictionary = $api->getCurrencies();
-        $decimals = $api->getCurrencyDecimals();
         if ($dictionary === null || $dictionary === []) {
             throw new RuntimeException('Missing or empty currency dictionary');
         }
+        $decimals = $api->getCurrencyDecimals();
         if ($decimals === null || $decimals === []) {
             throw new RuntimeException('Missing or empty currency decimals');
         }
@@ -152,7 +220,27 @@ class Writer
             throw new RuntimeException("The following currencies are defined in the decimal places but not in the dictionary:\n- " . implode("\n- ", $missing));
         }
         ksort($dictionary);
+        $dictionarySource = $api->getCurrenciesSource();
+        if ($dictionarySource === '') {
+            throw new RuntimeException('Missing currency dictionary source');
+        }
+        $decimalsSource = $api->getCurrencyDecimalsSource();
+        if ($dictionarySource === '') {
+            throw new RuntimeException('Missing currency decimals source');
+        }
         $template = Writer\Template::fromFile("{$this->templatesDirectory}/Dictionary/Currency.php");
+        $template->fillPlaceholder('CLASS_PHPDOC', [
+            '/**',
+            ' * List of currencies supported by Nexi.',
+            ' *',
+            " * @see {$dictionarySource}",
+            ' */',
+        ]);
+        $template->fillPlaceholder('MOVE_DECIMALS_DOC', [
+            '/**',
+            " * @see {$decimalsSource}",
+            ' */',
+        ]);
         $lines = [];
         foreach ($dictionary as $key => $name) {
             if ($lines !== []) {
@@ -182,7 +270,18 @@ class Writer
         if ($value === null || $value === []) {
             throw new RuntimeException('Missing or empty payment services');
         }
+        $source = $api->getLanguagesSource();
+        if ($source === '') {
+            throw new RuntimeException('Missing payment services source');
+        }
         $template = Writer\Template::fromFile("{$this->templatesDirectory}/Dictionary/PaymentService.php");
+        $template->fillPlaceholder('CLASS_PHPDOC', [
+            '/**',
+            ' * List of payment services supported by Nexi.',
+            ' *',
+            " * @see {$source}",
+            ' */',
+        ]);
         $lines = [];
         foreach ($value as $key => $name) {
             if ($lines !== []) {
@@ -206,7 +305,18 @@ class Writer
         if ($value === null || $value === []) {
             throw new RuntimeException('Missing or empty ISO 8583 response codes');
         }
+        $source = $api->getLanguagesSource();
+        if ($source === '') {
+            throw new RuntimeException('Missing ISO 8583 response codes source');
+        }
         $template = Writer\Template::fromFile("{$this->templatesDirectory}/Dictionary/ResponseCode.php");
+        $template->fillPlaceholder('CLASS_PHPDOC', [
+            '/**',
+            ' * List of ISO 8583 response codes.',
+            ' *',
+            " * @see {$source}",
+            ' */',
+        ]);
         $lines = [];
         foreach ($value as $key => $name) {
             if ($lines !== []) {
@@ -745,11 +855,13 @@ class Writer
             }
         } else {
             $result[] = '    if ($response->getStatusCode() === 200) {';
-            $result[] = '        $data = $this->decodeJsonToArray($response->getBody());';
-            $result[] = '';
             if ($successType->isArrayOf) {
+                $result[] = '        $data = $this->decodeJsonToArray($response->getBody());';
+                $result[] = '';
                 $result[] = '        return array_map(static function (array $item) { return new Entity\\' . $successType->entity->name . '($item); }, $data);';
             } else {
+                $result[] = '        $data = $this->decodeJsonToObject($response->getBody());';
+                $result[] = '';
                 $result[] = '        return new Entity\\' . $successType->entity->name . '($data);';
             }
             $result[] = '    }';

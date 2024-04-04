@@ -8,9 +8,7 @@ use ReflectionClass;
 
 /* <<TOPCOMMENT>> */
 
-/**
- * List of payment services supported by Nexi.
- */
+/* <<CLASS_PHPDOC>> */
 class PaymentService
 {
     /* <<IDS>> */

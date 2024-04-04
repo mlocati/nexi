@@ -14,10 +14,6 @@ class API
 {
     public const ENTITYNAME_ERRORS = 'Errors';
 
-    public string $baseUrlProduction = '';
-
-    public string $baseUrlTest = '';
-
     /**
      * @var \MLocati\Nexi\Build\API\Method[] with keys
      */
@@ -32,17 +28,32 @@ class API
 
     private ?Webhook\Response $webhookResponse = null;
 
+    private string $baseUrlTestSource = '';
+    private string $baseUrlTest = '';
+
+    private string $baseUrlProductionSource = '';
+    private string $baseUrlProduction = '';
+
+    private string $languagesSource = '';
     private ?array $languages = null;
 
+    private string $errorCodesSource = '';
     private ?array $errorCodes = null;
 
+    private string $currenciesSource = '';
     private ?array $currencies = null;
 
+    private string $currencyDecimalsSource = '';
     private ?array $currencyDecimals = null;
 
+    private string $paymentServicesSource = '';
     private ?array $paymentServices = null;
 
+    private string $iso8583ResponseCodesSource = '';
     private ?array $iso8583ResponseCodes = null;
+
+    private string $apiKeyTestSource = '';
+    private string $apiKeyTest = '';
 
     /**
      * @return $this
@@ -165,14 +176,83 @@ class API
         return $this->webhookResponse;
     }
 
-    public function setLanguages(array $value): self
+    public function setBaseUrlTest(string $source, string $value): self
+    {
+        if ($this->baseUrlTest !== '' && $this->baseUrlTest !== $value) {
+            throw new RuntimeException('Duplicated and incompatible test base URL');
+        }
+        $this->baseUrlTestSource = $source;
+        $this->baseUrlTest = $value;
+
+        return $this;
+    }
+
+    public function getBaseUrlTest(): string
+    {
+        return $this->baseUrlTest;
+    }
+
+    public function getBaseUrlTestSource(): string
+    {
+        return $this->baseUrlTestSource;
+    }
+
+    public function setBaseUrlProduction(string $source, string $value): self
+    {
+        if ($this->baseUrlProduction !== '' && $this->baseUrlProduction !== $value) {
+            throw new RuntimeException('Duplicated and incompatible production base URL');
+        }
+        $this->baseUrlProductionSource = $source;
+        $this->baseUrlProduction = $value;
+
+        return $this;
+    }
+
+    public function getBaseUrlProduction(): string
+    {
+        return $this->baseUrlProduction;
+    }
+
+    public function getBaseUrlProductionSource(): string
+    {
+        return $this->baseUrlProductionSource;
+    }
+
+    public function setLanguages(string $source, array $value): self
     {
         if ($this->languages !== null && $this->languages !== $value) {
             throw new RuntimeException('Duplicated and incompatible language dictionary');
         }
+        $this->languagesSource = $source;
         $this->languages = $value;
 
         return $this;
+    }
+
+    public function setApiKeyTest(string $source, string $value): self
+    {
+        if ($this->apiKeyTest !== '' && $this->apiKeyTest !== $value) {
+            throw new RuntimeException('Duplicated and incompatible test API key');
+        }
+        $this->apiKeyTestSource = $source;
+        $this->apiKeyTest = $value;
+
+        return $this;
+    }
+
+    public function getApiKeyTest(): string
+    {
+        return $this->apiKeyTest;
+    }
+
+    public function getApiKeyTestSource(): string
+    {
+        return $this->apiKeyTestSource;
+    }
+
+    public function getLanguagesSource(): string
+    {
+        return $this->languagesSource;
     }
 
     public function getLanguages(): ?array
@@ -180,14 +260,20 @@ class API
         return $this->languages;
     }
 
-    public function setErrorCodes(array $value): self
+    public function setErrorCodes(string $source, array $value): self
     {
         if ($this->errorCodes !== null && $this->errorCodes !== $value) {
             throw new RuntimeException('Duplicated and incompatible error codes');
         }
+        $this->errorCodesSource = $source;
         $this->errorCodes = $value;
 
         return $this;
+    }
+
+    public function getErrorCodesSource(): string
+    {
+        return $this->errorCodesSource;
     }
 
     public function getErrorCodes(): ?array
@@ -195,14 +281,20 @@ class API
         return $this->errorCodes;
     }
 
-    public function setCurrencies(array $value): self
+    public function setCurrencies(string $source, array $value): self
     {
         if ($this->currencies !== null && $this->currencies !== $value) {
             throw new RuntimeException('Duplicated and incompatible currency dictionary');
         }
+        $this->currenciesSource = $source;
         $this->currencies = $value;
 
         return $this;
+    }
+
+    public function getCurrenciesSource(): string
+    {
+        return $this->currenciesSource;
     }
 
     public function getCurrencies(): ?array
@@ -210,14 +302,20 @@ class API
         return $this->currencies;
     }
 
-    public function setCurrencyDecimals(array $value): self
+    public function setCurrencyDecimals(string $source, array $value): self
     {
         if ($this->currencyDecimals !== null && $this->currencyDecimals !== $value) {
             throw new RuntimeException('Duplicated and incompatible currency decimals');
         }
+        $this->currencyDecimalsSource = $source;
         $this->currencyDecimals = $value;
 
         return $this;
+    }
+
+    public function getCurrencyDecimalsSource(): string
+    {
+        return $this->currencyDecimalsSource;
     }
 
     public function getCurrencyDecimals(): ?array
@@ -225,14 +323,20 @@ class API
         return $this->currencyDecimals;
     }
 
-    public function setPaymentServices(array $value): self
+    public function setPaymentServices(string $source, array $value): self
     {
         if ($this->paymentServices !== null && $this->paymentServices !== $value) {
             throw new RuntimeException('Duplicated and incompatible payment service dictionary');
         }
+        $this->paymentServicesSource = $source;
         $this->paymentServices = $value;
 
         return $this;
+    }
+
+    public function getPaymentServicesSource(): string
+    {
+        return $this->paymentServicesSource;
     }
 
     public function getPaymentServices(): ?array
@@ -240,11 +344,12 @@ class API
         return $this->paymentServices;
     }
 
-    public function setISO8583ResponseCodes(array $value): self
+    public function setISO8583ResponseCodes(string $source, array $value): self
     {
         if ($this->iso8583ResponseCodes !== null && $this->iso8583ResponseCodes !== $value) {
             throw new RuntimeException('Duplicated and incompatible ISO 8583 response codes');
         }
+        $this->iso8583ResponseCodesSource = $source;
         $this->iso8583ResponseCodes = $value;
 
         return $this;

@@ -6,6 +6,7 @@ namespace MLocati\Nexi;
 
 use MLocati\Nexi\HttpClient\Response;
 use MLocati\Nexi\Service\QueryEntityInterface;
+use stdClass;
 
 /* <<TOPCOMMENT>> */
 
@@ -51,7 +52,7 @@ class Client
     public function getNotificationRequest(): Entity\Webhook\Request
     {
         if ($this->notificationRequest === null) {
-            $data = $this->decodeJsonToArray(file_get_contents('php://input') ?: '');
+            $data = $this->decodeJsonToObject(file_get_contents('php://input') ?: '');
             $notificationRequest = new Entity\Webhook\Request($data);
             if ((string) $notificationRequest->getSecurityToken() === '') {
                 throw new Exception\MissingField('securityToken');
@@ -69,11 +70,14 @@ class Client
      */
     protected function buildHttpClient(): HttpClient
     {
+        $flags = 0
+            | ($this->configuration->allowUnsafeHttps() ? HttpClient::FLAG_ALLOWINSECUREHTTPS : 0)
+            | 0;
         if (HttpClient\Curl::isAvailable()) {
-            return new HttpClient\Curl();
+            return new HttpClient\Curl($flags);
         }
         if (HttpClient\StreamWrapper::isAvailable()) {
-            return new HttpClient\StreamWrapper();
+            return new HttpClient\StreamWrapper($flags);
         }
         throw new Exception\NoHttpClient();
     }
@@ -158,19 +162,24 @@ class Client
      */
     protected function decodeJsonToArray(string $json): array
     {
-        if ($json === 'null') {
-            $decoded = null;
-        } else {
-            $decoded = json_decode($json, true);
-            if ($decoded === null) {
-                throw new Exception\InvalidJson($json);
-            }
+        $data = $this->decodeJson($json);
+        if (is_array($data)) {
+            return $data;
         }
-        if (!is_array($decoded)) {
-            throw new Exception\InvalidJson($json, 'The JSON does NOT represent an array');
+        throw new Exception\InvalidJson($json, 'The JSON does NOT represent an array');
+    }
+
+    /**
+     * @throws \MLocati\Nexi\Exception\InvalidJson
+     */
+    protected function decodeJsonToObject(string $json): stdClass
+    {
+        $data = $this->decodeJson($json);
+        if ($data instanceof stdClass) {
+            return $data;
         }
 
-        return $decoded;
+        throw new Exception\InvalidJson($json, 'The JSON does NOT represent an object');
     }
 
     /**
@@ -204,5 +213,21 @@ class Client
     protected function generateIdempotencyKey(): string
     {
         return bin2hex(random_bytes(31));
+    }
+
+    /**
+     * @throws \MLocati\Nexi\Exception\InvalidJson
+     */
+    private function decodeJson(string $json)
+    {
+        if ($json === 'null') {
+            return null;
+        }
+        $decoded = json_decode($json);
+        if ($decoded === null) {
+            throw new Exception\InvalidJson($json);
+        }
+
+        return $decoded;
     }
 }

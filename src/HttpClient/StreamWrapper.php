@@ -9,6 +9,16 @@ use MLocati\Nexi\HttpClient;
 
 class StreamWrapper implements HttpClient
 {
+    /**
+     * @var int
+     */
+    private $flags;
+
+    public function __construct(int $flags = 0)
+    {
+        $this->flags = $flags;
+    }
+
     public static function isAvailable(): bool
     {
         return in_array('http', stream_get_wrappers(), true);
@@ -53,9 +63,12 @@ class StreamWrapper implements HttpClient
      */
     protected function createContext(string $method, array $headers, string $rawBody)
     {
-        $options = $this->createHttpContextOptions($method, $headers, $rawBody);
+        $options = [
+            'https' => $this->createHttpContextOptions($method, $headers, $rawBody),
+            'ssl' => $this->createSslContextOptions(),
+        ];
 
-        return stream_context_create(['http' => $options]);
+        return stream_context_create($options);
     }
 
     protected function createHttpContextOptions(string $method, array $headers, string $rawBody): array
@@ -72,6 +85,20 @@ class StreamWrapper implements HttpClient
             foreach ($headers as $key => $value) {
                 $options['header'][] = "{$key}: {$value}";
             }
+        }
+
+        return $options;
+    }
+
+    protected function createSslContextOptions(): array
+    {
+        $options = [];
+        if (($this->flags & static::FLAG_ALLOWINSECUREHTTPS) === static::FLAG_ALLOWINSECUREHTTPS) {
+            $options += [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true,
+            ];
         }
 
         return $options;

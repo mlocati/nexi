@@ -14,6 +14,8 @@ use ReflectionClass;
 
 /**
  * List of error codes.
+ *
+ * @see https://developer.nexi.it/en/altro-/codifiche/codici-errore
  */
 class ErrorCode
 {

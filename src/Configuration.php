@@ -15,6 +15,8 @@ interface Configuration
     /**
      * This is the default URL to be used for tests.
      *
+     * @see https://developer.nexi.it/en/api/specifiche-di-utilizzo-del-servizio
+     *
      * @var string
      */
     const DEFAULT_BASEURL_TEST = 'https://stg-ta.nexigroup.com/api/phoenix-0.0/psp/api/v1';
@@ -22,17 +24,34 @@ interface Configuration
     /**
      * This is the default URL to be used in production.
      *
+     * @see https://developer.nexi.it/en/api/specifiche-di-utilizzo-del-servizio
+     *
      * @var string
      */
     const DEFAULT_BASEURL_PRODUCTION = 'https://xpay.nexigroup.com/api/phoenix-0.0/psp/api/v1/';
 
     /**
+     * This is an API key you can use for tests.
+     *
+     * @see https://developer.nexi.it/en/area-test/api-key
+     *
+     * @var string
+     */
+    const DEFAULT_APIKEY_TEST = '5d952446-9004-4023-9eae-a527a152846b';
+
+    /**
      * Get the API key.
      */
-    public function getBaseURL(): string;
+    public function getBaseUrl(): string;
 
     /**
      * Get the API key.
      */
     public function getApiKey(): string;
+
+    /**
+     * Allow unsafe HTTPS connections.
+     * Use with caution!
+     */
+    public function allowUnsafeHttps(): bool;
 }

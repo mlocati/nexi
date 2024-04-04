@@ -6,7 +6,7 @@ namespace MLocati\Nexi\Test\Cases;
 
 use PHPUnit\Framework\TestCase;
 
-class ValidClassesTest extends TestCase
+class ValidPHPTest extends TestCase
 {
     /**
      * @return string[]
