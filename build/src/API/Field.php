@@ -66,20 +66,18 @@ class Field
         return new self(type: FieldType::Obj, name: $name, preferredEntityName: $preferredEntityName, allowEmptyName: $allowEmptyName);
     }
 
-    public function setRequired(bool $required, string $when): self
+    public function addRequired(Field\Required $required): void
     {
-        $key = $required ? 1 : 0;
-        if (!in_array($when, $this->required[$key], true)) {
-            $this->required[$key][] = $when;
+        $key = $required->required ? 1 : 0;
+        if (isset($this->required[$key][$required->methodName])) {
+            $this->required[$key][$required->methodName]->mergeInfo($required);
+        } else {
+            $this->required[$key][$required->methodName] = $required;
         }
-
-        return $this;
     }
 
     public function isAlwaysRequired(): bool
     {
-        return $this->required[0] === [] && $this->required[1] !== [];
-
         return $this->required[0] === [] && $this->required[1] !== [];
     }
 
@@ -96,7 +94,7 @@ class Field
         }
         $result = [];
         foreach ($this->required[1] as $when) {
-            $result[] = "@required {$when}";
+            $result[] = (string) $when;
         }
         $result[] = '@optional in other cases';
 
@@ -162,11 +160,42 @@ class Field
                 $this->examples[] = $example;
             }
         }
-        foreach ($field->required as $key => $whens) {
-            $bool = (bool) $key;
+        foreach ($field->required as $whens) {
             foreach ($whens as $when) {
-                $this->setRequired($bool, $when);
+                $this->addRequired($when);
             }
         }
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRequiredSpecLines(): array
+    {
+        if ($this->required[1] === []) {
+            return [];
+        }
+        if ($this->required[0] === []) {
+            return ["'{$this->name}' => true,"];
+        }
+        $lines = ["'{$this->name}' => ["];
+        foreach ($this->required[1] as $required) {
+            $line = "    '{$required->methodName}' => ";
+            if ($required->request === $required->response) {
+                if ($required->request === false) {
+                    continue;
+                }
+                $line .= 'true';
+            } elseif ($required->request) {
+                $line .= "'request'";
+            } else {
+                $line .= "'response'";
+            }
+            $line .= ',';
+            $lines[] = $line;
+        }
+        $lines[] = '],';
+
+        return $lines;
     }
 }

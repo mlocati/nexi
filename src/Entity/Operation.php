@@ -563,4 +563,15 @@ class Operation extends Entity
     {
         return $value === null ? $this->_unset('additionalData') : $this->_setCustomObject('additionalData', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

@@ -551,4 +551,15 @@ class CardHolderAcctInfo extends Entity
     {
         return $value === null ? $this->_unset('paymentAccIndicator') : $this->_set('paymentAccIndicator', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

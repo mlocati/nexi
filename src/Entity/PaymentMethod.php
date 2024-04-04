@@ -152,4 +152,15 @@ class PaymentMethod extends Entity
     {
         return $value === null ? $this->_unset('oneClickSupported') : $this->_set('oneClickSupported', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

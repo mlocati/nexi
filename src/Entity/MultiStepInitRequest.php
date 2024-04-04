@@ -160,4 +160,17 @@ class MultiStepInitRequest extends Entity
     {
         return $value === null ? $this->_unset('exemptions') : $this->_set('exemptions', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+            'order' => true,
+            'card' => true,
+        ];
+    }
 }

@@ -224,4 +224,15 @@ class Contract extends Entity
     {
         return $value === null ? $this->_unset('paymentInstrumentInfo') : $this->_set('paymentInstrumentInfo', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

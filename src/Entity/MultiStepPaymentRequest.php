@@ -271,4 +271,18 @@ class MultiStepPaymentRequest extends Entity
     {
         return $value === null ? $this->_unset('threeDSAuthData') : $this->_set('threeDSAuthData', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+            'operationId' => true,
+            'order' => true,
+            'card' => true,
+        ];
+    }
 }

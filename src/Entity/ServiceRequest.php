@@ -133,4 +133,15 @@ class ServiceRequest extends Entity
     {
         return $value === null ? $this->_unset('serviceTecId') : $this->_set('serviceTecId', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

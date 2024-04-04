@@ -44,4 +44,15 @@ class Response extends Entity
     {
         return $value === null ? $this->_unset('paymentMethods') : $this->_setEntityArray('paymentMethods', \MLocati\Nexi\Entity\PaymentMethod::class, $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

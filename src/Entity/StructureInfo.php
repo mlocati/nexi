@@ -55,4 +55,15 @@ class StructureInfo extends Entity
     {
         return $value === null ? $this->_unset('structure') : $this->_set('structure', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

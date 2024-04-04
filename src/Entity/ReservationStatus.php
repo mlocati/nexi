@@ -170,4 +170,15 @@ class ReservationStatus extends Entity
     {
         return $value === null ? $this->_unset('lastOperationTime') : $this->_set('lastOperationTime', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

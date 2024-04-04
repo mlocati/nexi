@@ -159,4 +159,15 @@ class FieldSet extends Entity
     {
         return $value === null ? $this->_unset('url') : $this->_set('url', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

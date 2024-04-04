@@ -60,4 +60,15 @@ class Response extends Entity
     {
         return $value === null ? $this->_unset('threeDSAuthResult') : $this->_set('threeDSAuthResult', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

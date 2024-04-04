@@ -81,6 +81,7 @@ class Client
      */
     public function createOrderForHostedPayment(Entity\CreateOrderForHostedPayment\Request $requestBody): Entity\CreateOrderForHostedPayment\Response
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/orders/hpp');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -109,6 +110,7 @@ class Client
      */
     public function createOrderForPayByLink(Entity\CreateOrderForPayByLink\Request $requestBody): Entity\PayByLinkResponse
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/orders/paybylink');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -170,6 +172,7 @@ class Client
      */
     public function twoSteps3DSInit(Entity\MultiStepInitRequest $requestBody): Entity\MultiStepInitResponse
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/orders/2steps/init');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -198,6 +201,7 @@ class Client
      */
     public function twoSteps3DSPayment(Entity\MultiStepPaymentRequest $requestBody): Entity\OperationResult
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/orders/2steps/payment');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -226,6 +230,7 @@ class Client
      */
     public function threeSteps3DSInit(Entity\MultiStepInitRequest $requestBody): Entity\MultiStepInitResponse
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/orders/3steps/init');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -254,6 +259,7 @@ class Client
      */
     public function threeSteps3DSValidation(Entity\ThreeSteps3DSValidation\Request $requestBody): Entity\ThreeSteps3DSValidation\Response
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/orders/3steps/validation');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -282,6 +288,7 @@ class Client
      */
     public function threeSteps3DSPayment(Entity\MultiStepPaymentRequest $requestBody): Entity\OperationResult
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/orders/3steps/payment');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -312,6 +319,7 @@ class Client
      */
     public function createOrderForMerchantInitiatedTransaction(Entity\CreateOrderForMerchantInitiatedTransaction\Request $requestBody, string &$idempotencyKey = ''): Entity\OperationResult
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/orders/mit');
         $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
@@ -340,6 +348,7 @@ class Client
      */
     public function cardVerification(Entity\CardVerification\Request $requestBody): Entity\OperationResult
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/orders/card_verification');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -368,6 +377,7 @@ class Client
      */
     public function createOrderForMotoPayment(Entity\CreateOrderForMotoPayment\Request $requestBody): Entity\OperationResult
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/orders/moto');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -396,6 +406,7 @@ class Client
      */
     public function createVirtualCartOrder(Entity\CreateVirtualCartOrder\Request $requestBody): Entity\OperationResult
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/orders/virtual_card');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -425,6 +436,7 @@ class Client
      */
     public function createXPayBuildOrder(Entity\CreateXPayBuildOrder\Request $requestBody): Entity\FieldSet
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/orders/build');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -453,6 +465,7 @@ class Client
      */
     public function finalizeXPayBuildOrder(Entity\Session $requestBody): Entity\FinalizeXPayBuildOrder\Response
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/build/finalize_payment');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -481,6 +494,7 @@ class Client
      */
     public function cancelXPayBuildOrder(Entity\Session $requestBody): Entity\CancelXPayBuildOrder\Response
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/build/cancel');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -509,6 +523,9 @@ class Client
      */
     public function getXPayBuildOrderStatus(?Entity\Session $query = null): Entity\GetXPayBuildOrderStatus\Response
     {
+        if ($query !== null) {
+            $query->checkRequiredFields(__FUNCTION__, 'request');
+        }
         $url = $this->buildUrl('/build/state', [], $query);
         $response = $this->invoke('GET', $url, 3);
         if ($response->getStatusCode() === 200) {
@@ -536,6 +553,9 @@ class Client
      */
     public function findOrders(?Entity\FindOrders\Query $query = null): Entity\FindOrders\Response
     {
+        if ($query !== null) {
+            $query->checkRequiredFields(__FUNCTION__, 'request');
+        }
         $url = $this->buildUrl('/orders', [], $query);
         $response = $this->invoke('GET', $url, 3);
         if ($response->getStatusCode() === 200) {
@@ -595,6 +615,9 @@ class Client
      */
     public function findOperations(?Entity\FindOperations\Query $query = null): Entity\FindOperations\Response
     {
+        if ($query !== null) {
+            $query->checkRequiredFields(__FUNCTION__, 'request');
+        }
         $url = $this->buildUrl('/operations', [], $query);
         $response = $this->invoke('GET', $url, 3);
         if ($response->getStatusCode() === 200) {
@@ -693,6 +716,7 @@ class Client
      */
     public function refund(string $operationId, Entity\AmountWithDescription $requestBody, string &$idempotencyKey = ''): ?Entity\OperationInfo
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/operations/{operationId}/refunds', ['operationId' => $operationId]);
         $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
@@ -729,6 +753,7 @@ class Client
      */
     public function capture(string $operationId, Entity\AmountWithDescription $requestBody, string &$idempotencyKey = ''): ?Entity\OperationInfo
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/operations/{operationId}/captures', ['operationId' => $operationId]);
         $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
@@ -764,6 +789,7 @@ class Client
      */
     public function cancel(string $operationId, Entity\Cancel\Request $requestBody): ?Entity\OperationInfo
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/operations/{operationId}/cancels', ['operationId' => $operationId]);
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -882,6 +908,7 @@ class Client
      */
     public function createTermsAndConditions(Entity\CreateTermsAndConditions\Request $requestBody): Entity\CreateTermsAndConditions\Response
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/termsAndConditions');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -942,6 +969,7 @@ class Client
      */
     public function incrementOrder(Entity\ChangeAmountRequest $requestBody, string &$idempotencyKey = ''): Entity\OperationResult
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/incrementals');
         $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
@@ -1005,6 +1033,7 @@ class Client
      */
     public function delayedCharge(Entity\ChangeAmountRequest $requestBody, string &$idempotencyKey = ''): Entity\OperationResult
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/delay_charges');
         $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
@@ -1035,6 +1064,7 @@ class Client
      */
     public function noShowCharge(Entity\ChangeAmountRequest $requestBody, string &$idempotencyKey = ''): Entity\OperationResult
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/no_shows');
         $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {
@@ -1063,6 +1093,7 @@ class Client
      */
     public function createReservation(Entity\CreateReservation\Request $requestBody): Entity\CreateReservation\Response
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/reservations');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -1090,6 +1121,9 @@ class Client
      */
     public function findReservations(?Entity\FindReservations\Query $query = null): Entity\FindReservations\Response
     {
+        if ($query !== null) {
+            $query->checkRequiredFields(__FUNCTION__, 'request');
+        }
         $url = $this->buildUrl('/reservations', [], $query);
         $response = $this->invoke('GET', $url, 3);
         if ($response->getStatusCode() === 200) {
@@ -1119,6 +1153,7 @@ class Client
      */
     public function createPayByLinkForReservation(string $reservationId, Entity\CreatePayByLinkForReservation\Request $requestBody): Entity\PayByLinkResponse
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/reservations/{reservationId}/paybylink', ['reservationId' => $reservationId]);
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -1180,6 +1215,7 @@ class Client
      */
     public function createStructure(Entity\StructureInfo $requestBody): void
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/structures');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -1270,6 +1306,7 @@ class Client
      */
     public function noShowValidation(Entity\ReservationValidation $requestBody): void
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/noshow_validation');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -1296,6 +1333,7 @@ class Client
      */
     public function delayedChargeValidation(Entity\ReservationValidation $requestBody): void
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/delaycharge_validation');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -1322,6 +1360,7 @@ class Client
      */
     public function incrementOrderValidation(Entity\ReservationValidation $requestBody): void
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/incremental_validation');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -1348,6 +1387,7 @@ class Client
      */
     public function createStructureTermsAndConditions(Entity\CreateStructureTermsAndConditions\Request $requestBody): Entity\CreateStructureTermsAndConditions\Response
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/structure_conditions');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -1469,6 +1509,7 @@ class Client
      */
     public function toggleService(Entity\ServiceRequest $requestBody): void
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/services');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -1496,6 +1537,7 @@ class Client
      */
     public function getService(Entity\GetService\Query $query): ?Entity\ServiceRequest
     {
+        $query->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/services', [], $query);
         $response = $this->invoke('GET', $url, 3);
         if ($response->getStatusCode() === 200) {
@@ -1526,6 +1568,7 @@ class Client
      */
     public function createCustomField(Entity\CustomFieldDetails $requestBody): Entity\CreateCustomField\Response
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/custom_fields');
         $response = $this->invoke('POST', $url, 3, $requestBody);
         if ($response->getStatusCode() === 200) {
@@ -1613,6 +1656,7 @@ class Client
      */
     public function payRecurringReservation(string $reservationId, Entity\PayRecurringReservation\Request $requestBody, string &$idempotencyKey = ''): void
     {
+        $requestBody->checkRequiredFields(__FUNCTION__, 'request');
         $url = $this->buildUrl('/reservation/{reservationId}/mit', ['reservationId' => $reservationId]);
         $response = $this->invoke('POST', $url, 7, $requestBody, $idempotencyKey);
         if ($response->getStatusCode() === 200) {

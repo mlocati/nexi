@@ -168,4 +168,15 @@ class Request extends Entity
     {
         return $value === null ? $this->_unset('sessionAmount') : $this->_set('sessionAmount', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

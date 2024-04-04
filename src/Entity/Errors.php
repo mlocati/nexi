@@ -96,4 +96,15 @@ class Errors extends Entity
     {
         return $value === null ? $this->_unset('errors') : $this->_setEntityArray('errors', Error::class, $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

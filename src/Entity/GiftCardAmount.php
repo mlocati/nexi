@@ -105,4 +105,15 @@ class GiftCardAmount extends Entity
     {
         return $value === null ? $this->_unset('currency') : $this->_set('currency', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

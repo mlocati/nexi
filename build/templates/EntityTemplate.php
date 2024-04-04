@@ -12,4 +12,16 @@ use MLocati\Nexi\Entity;
 class /* <<CLASSNAME>> */ EntityTemplate /* <</CLASSNAME>> */ extends Entity/* <<IMPLEMENTS>> */
 {
     /* <<FIELDS>> */
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+            /* <<REQUIRED_FIELDS>> */
+        ];
+    }
 }

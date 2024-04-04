@@ -87,4 +87,15 @@ class TransactionSummary extends Entity
     {
         return $value === null ? $this->_unset('summaryList') : $this->_setEntityArray('summaryList', Summary::class, $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

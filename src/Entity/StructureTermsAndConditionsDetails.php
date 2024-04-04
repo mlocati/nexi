@@ -217,4 +217,15 @@ class StructureTermsAndConditionsDetails extends Entity
     {
         return $value === null ? $this->_unset('textCancellationCondition') : $this->_set('textCancellationCondition', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

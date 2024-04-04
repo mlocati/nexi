@@ -125,4 +125,15 @@ class MultiStepInitResponse extends Entity
     {
         return $value === null ? $this->_unset('threeDSAuthUrl') : $this->_set('threeDSAuthUrl', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

@@ -72,4 +72,15 @@ class Request extends Entity
     {
         return $value === null ? $this->_unset('termsAndConditions') : $this->_setEntityArray('termsAndConditions', \MLocati\Nexi\Entity\TermsAndConditions::class, $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

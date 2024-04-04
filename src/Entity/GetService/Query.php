@@ -66,4 +66,17 @@ class Query extends Entity implements \MLocati\Nexi\Service\QueryEntityInterface
     {
         return $this->_set('terminalId', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+            'serviceName' => true,
+            'terminalId' => true,
+        ];
+    }
 }

@@ -42,8 +42,9 @@ class APINotificationPage extends APIPage
         $container = $this->getElement($main, "descendant::div[@id='tab_body']");
         $data = new FieldsData(
             api: $api,
-            when: 'in webhook request',
             see: "{$see}#tab_body",
+            methodName: 'webhook',
+            request: true,
         );
         $result = new Webhook\Request("{$see}#tab_body");
         foreach ($this->extractFields($data, $container, ['parameters', 'body'], false) as $field) {

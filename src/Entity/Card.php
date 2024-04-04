@@ -114,4 +114,17 @@ class Card extends Entity
     {
         return $value === null ? $this->_unset('cvv') : $this->_set('cvv', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+            'pan' => true,
+            'expiryDate' => true,
+        ];
+    }
 }

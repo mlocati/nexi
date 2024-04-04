@@ -74,4 +74,15 @@ class OperationInfo extends Entity
     {
         return $value === null ? $this->_unset('operationTime') : $this->_set('operationTime', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

@@ -44,4 +44,15 @@ class Response extends Entity
     {
         return $value === null ? $this->_unset('orders') : $this->_setEntityArray('orders', \MLocati\Nexi\Entity\OrderDetails::class, $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

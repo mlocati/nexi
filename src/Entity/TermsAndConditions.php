@@ -129,4 +129,15 @@ class TermsAndConditions extends Entity
     {
         return $value === null ? $this->_unset('text') : $this->_set('text', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

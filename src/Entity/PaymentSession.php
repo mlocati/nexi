@@ -260,8 +260,8 @@ class PaymentSession extends Entity
      * Merchant URL where the cardholder is redirected once the hosted payment completes.
      * The field value must start with “http://” or “https://” and the standard ports 80 or 443 must be used.
      *
-     * @required in the request body of the createOrderForHostedPayment method
-     * @required in the request body of the createXPayBuildOrder method
+     * @required in request of createOrderForHostedPayment
+     * @required in request of createXPayBuildOrder
      * @optional in other cases
      * Maximum length: 2048
      *
@@ -278,8 +278,8 @@ class PaymentSession extends Entity
      * Merchant URL where the cardholder is redirected once the hosted payment completes.
      * The field value must start with “http://” or “https://” and the standard ports 80 or 443 must be used.
      *
-     * @required in the request body of the createOrderForHostedPayment method
-     * @required in the request body of the createXPayBuildOrder method
+     * @required in request of createOrderForHostedPayment
+     * @required in request of createXPayBuildOrder
      * @optional in other cases
      * Maximum length: 2048
      *
@@ -296,8 +296,8 @@ class PaymentSession extends Entity
      * Merchant URL where the cardholder is redirected once the hosted payment is abandoned.
      * The field value must start with “http://” or “https://” and the standard ports 80 or 443 must be used.
      *
-     * @required in the request body of the createOrderForHostedPayment method
-     * @required in the request body of the createXPayBuildOrder method
+     * @required in request of createOrderForHostedPayment
+     * @required in request of createXPayBuildOrder
      * @optional in other cases
      * Maximum length: 2048
      *
@@ -314,8 +314,8 @@ class PaymentSession extends Entity
      * Merchant URL where the cardholder is redirected once the hosted payment is abandoned.
      * The field value must start with “http://” or “https://” and the standard ports 80 or 443 must be used.
      *
-     * @required in the request body of the createOrderForHostedPayment method
-     * @required in the request body of the createXPayBuildOrder method
+     * @required in request of createOrderForHostedPayment
+     * @required in request of createXPayBuildOrder
      * @optional in other cases
      * Maximum length: 2048
      *
@@ -366,5 +366,26 @@ class PaymentSession extends Entity
     public function setNotificationUrl(?string $value): self
     {
         return $value === null ? $this->_unset('notificationUrl') : $this->_set('notificationUrl', $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+            'amount' => true,
+            'language' => true,
+            'resultUrl' => [
+                'createOrderForHostedPayment' => 'request',
+                'createXPayBuildOrder' => 'request',
+            ],
+            'cancelUrl' => [
+                'createOrderForHostedPayment' => 'request',
+                'createXPayBuildOrder' => 'request',
+            ],
+        ];
     }
 }

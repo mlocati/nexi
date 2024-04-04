@@ -135,4 +135,15 @@ class Field extends Entity
     {
         return $value === null ? $this->_unset('src') : $this->_set('src', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

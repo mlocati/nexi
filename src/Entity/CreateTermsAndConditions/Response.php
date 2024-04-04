@@ -44,4 +44,15 @@ class Response extends Entity
     {
         return $value === null ? $this->_unset('termsAndConditionsId') : $this->_set('termsAndConditionsId', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

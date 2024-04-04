@@ -273,4 +273,15 @@ class BillingAddress extends Entity
     {
         return $value === null ? $this->_unset('country') : $this->_set('country', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

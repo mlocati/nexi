@@ -159,4 +159,15 @@ class PaymentLink extends Entity
     {
         return $value === null ? $this->_unset('paidByOperationId') : $this->_set('paidByOperationId', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

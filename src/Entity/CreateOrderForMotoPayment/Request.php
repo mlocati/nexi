@@ -140,4 +140,17 @@ class Request extends Entity
     {
         return $value === null ? $this->_unset('captureType') : $this->_set('captureType', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+            'order' => true,
+            'card' => true,
+        ];
+    }
 }

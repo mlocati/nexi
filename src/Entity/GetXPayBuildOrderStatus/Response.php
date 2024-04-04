@@ -126,4 +126,15 @@ class Response extends Entity
     {
         return $value === null ? $this->_unset('fieldSet') : $this->_set('fieldSet', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

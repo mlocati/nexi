@@ -87,11 +87,6 @@ class APIPage extends HtmlParser
 
     protected function extractHttpResponseCodes(DOMElement $parent, API $api, Method\Definition $methodDefinition, string $see): Generator
     {
-        if ($methodDefinition->name === Method\Definition::WEBHOOK_RESPONSE) {
-            $whenPrefix = 'in webhook response';
-        } else {
-            $whenPrefix = "in the body response of the {$methodDefinition->name} method";
-        }
         $container = $this->getElement($parent, "descendant::div[@id='tab_response']");
         foreach ($this->findElements($container, 'descendant::div[@data-status-code]') as $section) {
             $statusCode = $section->getAttribute('data-status-code');
@@ -104,8 +99,9 @@ class APIPage extends HtmlParser
             }
             $data = new FieldsData(
                 api: $api,
-                when: "{$whenPrefix} (HTTP response code {$statusCode})",
                 see: "{$see}#tab_response",
+                methodName: $methodDefinition->name,
+                response: true,
                 entityNamesByPath: $methodDefinition->getResponseBodyEntityNames($statusCode),
             );
 
@@ -140,8 +136,9 @@ class APIPage extends HtmlParser
     {
         $data = new FieldsData(
             api: $api,
-            when: "in the request headers of the {$methodName} method",
             see: "{$see}#tab_header",
+            methodName: $methodName,
+            request: true,
         );
         $flags = 0;
         foreach ($this->extractFields($data, $parent, ['parameters', 'header'], false) as $field) {
@@ -170,8 +167,9 @@ class APIPage extends HtmlParser
     {
         $data = new FieldsData(
             api: $api,
-            when: "in the path of the {$methodName} method",
             see: "{$see}#tab_url",
+            methodName: $methodName,
+            request: true,
         );
 
         return $this->extractFields($data, $parent, ['parameters', 'path'], false);
@@ -184,8 +182,9 @@ class APIPage extends HtmlParser
     {
         $data = new FieldsData(
             api: $api,
-            when: "in the querystring of the {$methodName} method",
             see: "{$see}#tab_url",
+            methodName: $methodName,
+            request: true,
         );
 
         return $this->extractFields($data, $parent, ['parameters', 'query'], true);
@@ -198,8 +197,9 @@ class APIPage extends HtmlParser
     {
         $data = new FieldsData(
             api: $api,
-            when: "in the request body of the {$methodDefinition->name} method",
             see: "{$see}#tab_body",
+            methodName: $methodDefinition->name,
+            request: true,
             entityNamesByPath: $methodDefinition->getRequestBodyEntityNames(),
         );
 
@@ -270,7 +270,7 @@ class APIPage extends HtmlParser
             return null;
         }
         $cell = $cell->nextElementSibling;
-        $required = preg_match('/\\brequired\\b/i', $cell->ownerDocument->saveHTML($cell)) > 0;
+        $isRequired = preg_match('/\\brequired\\b/i', $cell->ownerDocument->saveHTML($cell)) > 0;
         $cell = $cell->nextElementSibling;
         $name = $this->getNormalizedText($cell);
         $cell = $cell->nextElementSibling;
@@ -278,17 +278,23 @@ class APIPage extends HtmlParser
         $cell = $cell->nextElementSibling;
         $rawFormat = $this->getNormalizedText($cell);
 
+        $required = new Field\Required(
+            required: $isRequired,
+            methodName: $data->methodName,
+            request: $data->request,
+            response: $data->response,
+        );
+
         return $this->buildField(
             required: $required,
             name: $name,
             description: $description,
             rawFormat: $rawFormat,
-            when: $data->when,
             overrideEntityName: $data->getEntityNameByPath($name),
         );
     }
 
-    private function buildField(string $name, bool $required, string $description, string $rawFormat, string $when, string $overrideEntityName = '')
+    private function buildField(string $name, Field\Required $required, string $description, string $rawFormat, string $overrideEntityName = '')
     {
         $lines = explode("\n", $rawFormat);
         $rawType = array_shift($lines);
@@ -383,7 +389,7 @@ class APIPage extends HtmlParser
             default:
                 throw new RuntimeException("Unrecognized type: {$rawType}");
         }
-        $field->setRequired($required, $when);
+        $field->addRequired($required);
         $field->description = $description;
         $field->format = $format;
         $field->isArray = $isArray;

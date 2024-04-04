@@ -89,4 +89,15 @@ class Summary extends Entity
     {
         return $value === null ? $this->_unset('value') : $this->_set('value', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

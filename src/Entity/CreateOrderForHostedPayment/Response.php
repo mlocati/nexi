@@ -72,4 +72,15 @@ class Response extends Entity
     {
         return $value === null ? $this->_unset('securityToken') : $this->_set('securityToken', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

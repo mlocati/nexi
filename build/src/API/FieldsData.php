@@ -13,8 +13,10 @@ class FieldsData
 
     public function __construct(
         public readonly API $api,
-        public readonly string $when,
         public readonly string $see,
+        public readonly string $methodName,
+        public readonly bool $request = false,
+        public readonly bool $response = false,
         private readonly array $entityNamesByPath = [],
     ) {
     }

@@ -448,6 +448,7 @@ class Writer
         $template->fillPlaceholder('CLASSNAME', [$className], false);
         $template->fillPlaceholder('IMPLEMENTS', $entity->isQuery ? [' implements \\MLocati\\Nexi\\Service\\QueryEntityInterface'] : [''], true);
         $template->fillPlaceholder('FIELDS', $this->buildEntityFieldsLines($entity));
+        $template->fillPlaceholder('REQUIRED_FIELDS', $this->buildEntityRequiredFieldsLines($entity));
         $filename = "{$this->outputDirectory}/Entity" . str_replace('\\', '/', $namespace) . '/' . $className . '.php';
         $template->save($filename);
     }
@@ -699,6 +700,16 @@ class Writer
         return $result;
     }
 
+    private function buildEntityRequiredFieldsLines(Entity $entity): array
+    {
+        $result = [];
+        foreach ($entity->getFields() as $field) {
+            $result = array_merge($result, $field->getRequiredSpecLines());
+        }
+
+        return $result;
+    }
+
     private function writeWebHooks(API $api): void
     {
         $value = $api->getWebhookRequest();
@@ -857,6 +868,24 @@ class Writer
         }
         $result[] = $signature;
         $result[] = '{';
+        if ($queryType !== null) {
+            if ($queryTypeRequired) {
+                $result[] = '    $query->checkRequiredFields(__FUNCTION__, \'request\');';
+            } else {
+                $result[] = '    if ($query !== null) {';
+                $result[] = '        $query->checkRequiredFields(__FUNCTION__, \'request\');';
+                $result[] = '    }';
+            }
+        }
+        if ($bodyType !== null) {
+            if ($bodyType->isArrayOf) {
+                $result[] = '    foreach ($requestBody as $requestBodyItem) {';
+                $result[] = '        $requestBodyItem->checkRequiredFields(__FUNCTION__, \'request\');';
+                $result[] = '    }';
+            } else {
+                $result[] = '    $requestBody->checkRequiredFields(__FUNCTION__, \'request\');';
+            }
+        }
         $buildUrlParams = ["'{$method->path}'"];
         if ($queryType !== null || $method->getPathFields() !== []) {
             $buildUrlParams[] = '[' . implode(', ', array_map(

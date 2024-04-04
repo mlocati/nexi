@@ -129,4 +129,15 @@ class ThreeDSAuthData extends Entity
     {
         return $value === null ? $this->_unset('xid') : $this->_set('xid', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

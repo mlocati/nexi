@@ -180,4 +180,15 @@ class Recurrence extends Entity
     {
         return $value === null ? $this->_unset('contractFrequency') : $this->_set('contractFrequency', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

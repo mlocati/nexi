@@ -102,4 +102,15 @@ class CustomField extends Entity
     {
         return $value === null ? $this->_unset('customFieldTranslations') : $this->_setEntityArray('customFieldTranslations', CustomFieldTranslation::class, $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

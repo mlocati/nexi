@@ -80,4 +80,15 @@ class CustomFieldTranslation extends Entity
     {
         return $value === null ? $this->_unset('label') : $this->_set('label', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

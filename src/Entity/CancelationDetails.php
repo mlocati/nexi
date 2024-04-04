@@ -80,4 +80,15 @@ class CancelationDetails extends Entity
     {
         return $value === null ? $this->_unset('cancellationCondition') : $this->_setEntityArray('cancellationCondition', CancellationCondition::class, $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

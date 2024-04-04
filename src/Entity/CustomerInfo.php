@@ -53,7 +53,7 @@ class CustomerInfo extends Entity
     /**
      * Name and surname of the cardholder.
      *
-     * @required in the request body of the createOrderForMotoPayment method
+     * @required in request of createOrderForMotoPayment
      * @optional in other cases
      * Maximum length: 255
      *
@@ -69,7 +69,7 @@ class CustomerInfo extends Entity
     /**
      * Name and surname of the cardholder.
      *
-     * @required in the request body of the createOrderForMotoPayment method
+     * @required in request of createOrderForMotoPayment
      * @optional in other cases
      * Maximum length: 255
      *
@@ -378,5 +378,19 @@ class CustomerInfo extends Entity
     public function setMerchantRiskIndicator(?MerchantRiskIndicator $value): self
     {
         return $value === null ? $this->_unset('merchantRiskIndicator') : $this->_set('merchantRiskIndicator', $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+            'cardHolderName' => [
+                'createOrderForMotoPayment' => 'request',
+            ],
+        ];
     }
 }

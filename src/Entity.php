@@ -35,6 +35,24 @@ abstract class Entity implements JsonSerializable
         return $this->data;
     }
 
+    /**
+     * Check for missing required fields.
+     *
+     * @param string $method the method being invoked
+     * @param string $case 'request' or 'response'
+     *
+     * @throws \MLocati\Nexi\Exception\MissingField
+     */
+    public function checkRequiredFields(string $method, string $case): void
+    {
+        $this->checkRequiredFieldsWithPrefix($method, $case, '');
+    }
+
+    /**
+     * @return string[]
+     */
+    abstract protected function getRequiredFields(): array;
+
     protected function _getRawData(): stdClass
     {
         return $this->data;
@@ -379,5 +397,37 @@ abstract class Entity implements JsonSerializable
         );
 
         return $this->_set($fieldName, array_values($value));
+    }
+
+    /**
+     * @throws \MLocati\Nexi\Exception\MissingField
+     */
+    private function checkRequiredFieldsWithPrefix(string $method, string $case, string $prefix): void
+    {
+        foreach ($this->getRequiredFields() as $fieldName => $methods) {
+            if ($methods !== true) {
+                if (!isset($methods[$method])) {
+                    continue;
+                }
+                if ($methods[$method] !== true && $methods[$method] !== $case) {
+                    continue;
+                }
+            }
+            $prefixedFieldName = $prefix . $fieldName;
+            $getter = 'get' . ucfirst($fieldName);
+            $value = $this->{$getter}();
+            if ($value === null) {
+                throw new Exception\MissingField($prefixedFieldName);
+            }
+            if ($value instanceof Entity) {
+                $value->checkRequiredFieldsWithPrefix($method, $case, $prefixedFieldName . '.');
+            } elseif (is_array($value)) {
+                foreach ($value as $index => $item) {
+                    if ($item instanceof Entity) {
+                        $item->checkRequiredFieldsWithPrefix($method, $case, $prefixedFieldName . "[{$index}].");
+                    }
+                }
+            }
+        }
     }
 }

@@ -40,4 +40,15 @@ class Response extends Entity
     {
         return $value === null ? $this->_unset('reservation') : $this->_setEntityArray('reservation', \MLocati\Nexi\Entity\Reservation::class, $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

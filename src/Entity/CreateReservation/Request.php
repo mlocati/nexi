@@ -53,4 +53,15 @@ class Request extends Entity
     {
         return $value === null ? $this->_unset('reservation') : $this->_set('reservation', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

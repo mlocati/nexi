@@ -508,4 +508,15 @@ class Structure extends Entity
     {
         return $value === null ? $this->_unset('customField') : $this->_setEntityArray('customField', CustomField::class, $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

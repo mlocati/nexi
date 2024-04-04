@@ -90,4 +90,17 @@ class Request extends Entity
     {
         return $this->_set('card', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+            'order' => true,
+            'card' => true,
+        ];
+    }
 }

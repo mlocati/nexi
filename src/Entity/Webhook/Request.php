@@ -124,4 +124,15 @@ class Request extends Entity
     {
         return $value === null ? $this->_unset('operation') : $this->_set('operation', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

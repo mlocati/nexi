@@ -900,4 +900,15 @@ class Reservation extends Entity
     {
         return $value === null ? $this->_unset('CancelationDetails') : $this->_set('CancelationDetails', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }

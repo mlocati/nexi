@@ -118,4 +118,18 @@ class Request extends Entity
     {
         return $this->_set('paymentSession', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+            'merchantUrl' => true,
+            'order' => true,
+            'paymentSession' => true,
+        ];
+    }
 }

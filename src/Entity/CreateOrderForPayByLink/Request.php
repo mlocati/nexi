@@ -118,4 +118,18 @@ class Request extends Entity
     {
         return $this->_set('expirationDate', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+            'order' => true,
+            'paymentSession' => true,
+            'expirationDate' => true,
+        ];
+    }
 }

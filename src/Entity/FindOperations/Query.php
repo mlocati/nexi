@@ -200,4 +200,15 @@ class Query extends Entity implements \MLocati\Nexi\Service\QueryEntityInterface
     {
         return $value === null ? $this->_unset('customField') : $this->_set('customField', $value);
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     */
+    protected function getRequiredFields(): array
+    {
+        return [
+        ];
+    }
 }
