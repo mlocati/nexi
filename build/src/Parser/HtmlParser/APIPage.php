@@ -25,6 +25,7 @@ class APIPage extends HtmlParser
         SpecificationsPage::PATH,
         APINotificationPage::PATH,
         ApiKeysPage::PATH,
+        TestCardsPage::PATH,
     ];
 
     /**

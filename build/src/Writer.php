@@ -39,6 +39,7 @@ class Writer
         $this->writeCurrencies($api);
         $this->writePaymentServices($api);
         $this->writeResponseCodes($api);
+        $this->writeTestCards($api);
         $this->writeEntities($api);
         $this->writeWebHooks($api);
         $this->writeClient($api);
@@ -305,7 +306,7 @@ class Writer
         if ($value === null || $value === []) {
             throw new RuntimeException('Missing or empty ISO 8583 response codes');
         }
-        $source = $api->getLanguagesSource();
+        $source = $api->getISO8583ResponseCodesSource();
         if ($source === '') {
             throw new RuntimeException('Missing ISO 8583 response codes source');
         }
@@ -335,6 +336,41 @@ class Writer
         $template->save("{$this->outputDirectory}/Dictionary/ResponseCode.php");
     }
 
+    private function writeTestCards(API $api): void
+    {
+        $value = $api->getTestCards();
+        if ($value === null || $value === []) {
+            throw new RuntimeException('Missing or empty test cards');
+        }
+        $source = $api->getTestCardsSource();
+        if ($source === '') {
+            throw new RuntimeException('Missing test casrds source');
+        }
+        $template = Writer\Template::fromFile("{$this->templatesDirectory}/Dictionary/TestCard.php");
+        $template->fillPlaceholder('CLASS_PHPDOC', [
+            '/**',
+            ' * List of cards that can be used for tests.',
+            ' *',
+            " * @see {$source}",
+            ' */',
+        ]);
+        $lines = array_map(
+            static fn (array $card): string => implode('', [
+                'new Card(',
+                json_encode($card['positiveOutcome']),
+                ", '{$card['circuit']}'",
+                ", '{$card['formattedCardNumber']}'",
+                ", {$card['expiryMonth']}",
+                ", {$card['expiryYear']}",
+                ", '{$card['cvv']}'",
+                '),',
+            ]),
+            $value
+        );
+        $template->fillPlaceholder('CARDS', $lines);
+        $template->save("{$this->outputDirectory}/Dictionary/TestCard.php");
+    }
+
     private function deleteGeneratedFiles(): void
     {
         foreach ([
@@ -343,6 +379,7 @@ class Writer
             'Dictionary/Language.php',
             'Dictionary/PaymentService.php',
             'Dictionary/ResponseCode.php',
+            'Dictionary/TestCard.php',
             'Entity/',
             'Client.php',
             'Configuration.php',

@@ -115,6 +115,19 @@ abstract class HtmlParser implements Parser
         }
     }
 
+    /**
+     * @return \Generator<\DOMElement>
+     */
+    protected function listDescendingElements(DOMElement $parent): Generator
+    {
+        for ($child = $parent->firstElementChild; $child !== null; $child = $child->nextElementSibling) {
+            yield $child;
+            foreach ($this->listDescendingElements($child) as $grandChild) {
+                yield $grandChild;
+            }
+        }
+    }
+
     private function getXPath(DOMNode $parent): DOMXPath
     {
         $doc = $parent instanceof DOMDocument ? $parent : $parent->ownerDocument;

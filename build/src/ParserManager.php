@@ -23,6 +23,7 @@ class ParserManager
             new Parser\HtmlParser\EncodingPage(),
             new Parser\HtmlParser\APINotificationPage(),
             new Parser\HtmlParser\ApiKeysPage(),
+            new Parser\HtmlParser\TestCardsPage(),
             new Parser\WPPluginCurrencies(),
         ];
     }

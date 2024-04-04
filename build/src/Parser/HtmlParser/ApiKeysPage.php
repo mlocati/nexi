@@ -6,7 +6,6 @@ namespace MLocati\Nexi\Build\Parser\HtmlParser;
 
 use DOMDocument;
 use DOMElement;
-use Generator;
 use MLocati\Nexi\Build\API;
 use MLocati\Nexi\Build\Parser\HtmlParser;
 use RuntimeException;
@@ -45,7 +44,7 @@ class ApiKeysPage extends HtmlParser
     private function findApiKey(DOMElement $container): string
     {
         $apiKey = '';
-        foreach ($this->listChildElements($container) as $element) {
+        foreach ($this->listDescendingElements($container) as $element) {
             $found = $this->findApiKeyIn($element);
             if ($apiKey === '') {
                 $apiKey = $found;
@@ -58,19 +57,6 @@ class ApiKeysPage extends HtmlParser
         }
 
         return $apiKey;
-    }
-
-    /**
-     * @return \Generator<\DOMElement>
-     */
-    private function listChildElements(DOMElement $parent): Generator
-    {
-        for ($child = $parent->firstElementChild; $child !== null; $child = $child->nextElementSibling) {
-            yield $child;
-            foreach ($this->listChildElements($child) as $grandChild) {
-                yield $grandChild;
-            }
-        }
     }
 
     private function findApiKeyIn(DOMElement $element): string

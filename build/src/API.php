@@ -52,6 +52,9 @@ class API
     private string $iso8583ResponseCodesSource = '';
     private ?array $iso8583ResponseCodes = null;
 
+    private string $testCardsSource = '';
+    private ?array $testCards = null;
+
     private string $apiKeyTestSource = '';
     private string $apiKeyTest = '';
 
@@ -358,6 +361,32 @@ class API
     public function getISO8583ResponseCodes(): ?array
     {
         return $this->iso8583ResponseCodes;
+    }
+
+    public function getISO8583ResponseCodesSource(): string
+    {
+        return $this->iso8583ResponseCodesSource;
+    }
+
+    public function setTestCards(string $source, array $value): self
+    {
+        if ($this->testCards !== null && $this->testCards !== $value) {
+            throw new RuntimeException('Duplicated and incompatible test cards');
+        }
+        $this->testCardsSource = $source;
+        $this->testCards = $value;
+
+        return $this;
+    }
+
+    public function getTestCards(): ?array
+    {
+        return $this->testCards;
+    }
+
+    public function getTestCardsSource(): string
+    {
+        return $this->testCardsSource;
     }
 
     public function finalizeEntities(): void
