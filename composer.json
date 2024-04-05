@@ -2,18 +2,46 @@
     "name": "mlocati/nexi",
     "description": "An unofficial SDK for the Nexi payment gateway",
     "type": "library",
-    "license": "MIT",
     "keywords": [
         "nexi",
         "xpay",
-        "x-pay"
+        "x-pay",
+        "gateway",
+        "payment"
     ],
+    "homepage": "https://github.com/mlocati/nexi",
+    "license": "MIT",
     "authors": [
         {
             "name": "Michele Locati",
             "email": "michele@locati.it"
         }
     ],
+    "support": {
+        "issues": "https://github.com/mlocati/nexi/issues",
+        "source": "https://github.com/mlocati/nexi"
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/mlocati"
+        },
+        {
+            "type": "other",
+            "url": "https://paypal.me/mlocati"
+        }
+    ],
+    "require": {
+        "php": ">= 7.2",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    },
+    "suggest": {
+        "ext-curl": "To use cURL for HTTP requests",
+        "ext-openssl": "To use the stream wrapper for HTTP requests"
+    },
     "autoload": {
         "psr-4": {
             "MLocati\\Nexi\\": "src/"
@@ -25,17 +53,6 @@
         }
     },
     "minimum-stability": "stable",
-    "require": {
-        "php": ">= 7.2",
-        "ext-json": "*"
-    },
-    "suggest": {
-        "ext-curl": "To use cURL for HTTP requests",
-        "ext-openssl": "To use the stream wrapper for HTTP requests"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^8.5"
-    },
     "config": {
         "optimize-autoloader" : true,
         "preferred-install": "dist",
