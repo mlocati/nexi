@@ -31,7 +31,18 @@ class EncodingPage extends HtmlParser
     {
         switch ($path) {
             case '/en/altro-/codifiche/codifica-language':
-                $api->setLanguages($see, $this->extractLanguages($page));
+                $alpha3ToAlpha2 = $api->getISO639Alpha3ToAlpha2Map();
+                if ($alpha3ToAlpha2 === []) {
+                    throw new RuntimeException('The ISO-639 alpha3 to alpha2 map is empty');
+                }
+                $dictionary = $this->extractLanguages($page);
+                $nexiToAlpha2 = $this->buildLanguageNexiToAlpha2Map($dictionary, $alpha3ToAlpha2);
+                $alpha2ToNexi = $this->buildLanguageAlpha2ToNexiMap($dictionary, $alpha3ToAlpha2);
+                $api->setLanguages($see, [
+                    'dictionary' => $dictionary,
+                    'nexiToAlpha2' => $nexiToAlpha2,
+                    'alpha2ToNexi' => $alpha2ToNexi,
+                ]);
                 break;
             case '/en/altro-/codifiche/codici-errore':
                 $api->setErrorCodes($see, $this->extractErrorCodes($page));
@@ -56,6 +67,37 @@ class EncodingPage extends HtmlParser
             $page,
             static fn ($code): bool => preg_match('/^[a-z]{3}$/i', $code) === 1
         );
+    }
+
+    private function buildLanguageNexiToAlpha2Map(array $languages, array $alpha3ToAlpha2Map): array
+    {
+        $nexiToAplha2 = [];
+        foreach (array_keys($languages) as $nexi) {
+            $alpha2 = $alpha3ToAlpha2Map[$nexi] ?? '';
+            if (empty($alpha2)) {
+                throw new RuntimeException("The Nexi language code {$nexi} is not recognized");
+            }
+            $nexiToAplha2[$nexi] = $alpha2;
+        }
+
+        return $nexiToAplha2;
+    }
+
+    private function buildLanguageAlpha2ToNexiMap(array $languages, array $alpha3ToAlpha2Map): array
+    {
+        $alpha2ToNexi = [];
+        foreach (array_keys($languages) as $nexi) {
+            $alpha2 = $alpha3ToAlpha2Map[$nexi] ?? '';
+            if (empty($alpha2)) {
+                throw new RuntimeException("The Nexi language code {$nexi} is not recognized");
+            }
+            if (($alpha2ToNexi[$alpha2] ?? $nexi) !== $nexi) {
+                throw new RuntimeException("The Nexi language code {$nexi} has multiple alpha2 values");
+            }
+            $alpha2ToNexi[$alpha2] = $nexi;
+        }
+
+        return $alpha2ToNexi;
     }
 
     private function extractErrorCodes(DOMDocument $page): array

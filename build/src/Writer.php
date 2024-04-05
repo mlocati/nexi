@@ -107,8 +107,8 @@ class Writer
 
     private function writeLanguages(API $api): void
     {
-        $value = $api->getLanguages();
-        if ($value === null || $value === []) {
+        $data = $api->getLanguages();
+        if (empty($data) || empty($dictionary = $data['dictionary']) || empty($nexiToAlpha2 = $data['nexiToAlpha2']) || empty($alpha2ToNexi = $data['alpha2ToNexi'])) {
             throw new RuntimeException('Missing or empty languages');
         }
         $source = $api->getLanguagesSource();
@@ -123,20 +123,30 @@ class Writer
             " * @see {$source}",
             ' */',
         ]);
-        $lines = [];
-        foreach ($value as $key => $name) {
-            if ($lines !== []) {
-                $lines[] = '';
+        $idLines = [];
+        $nexiToAlpha2Lines = [];
+        $alpha2ToNexiLines = [];
+        foreach ($dictionary as $key => $name) {
+            if ($idLines !== []) {
+                $idLines[] = '';
             }
-            $uKey = strtoupper($key);
-            $lines[] = '/**';
-            $lines[] = " * {$name}";
-            $lines[] = ' *';
-            $lines[] = ' * @var string';
-            $lines[] = ' */';
-            $lines[] = "const ID_{$uKey} = '{$key}';";
+            $id = 'ID_' . strtoupper($key);
+            $idLines[] = '/**';
+            $idLines[] = " * {$name}";
+            $idLines[] = ' *';
+            $idLines[] = ' * @var string';
+            $idLines[] = ' */';
+            $idLines[] = "const {$id} = '{$key}';";
+            $alpha2 = $nexiToAlpha2[$key] ?? throw new RuntimeException("Missing nexiToAlpha2 for {$key}");
+            $nexiToAlpha2Lines[] = "self::{$id} => '{$alpha2}',";
+            if (($alpha2ToNexi[$alpha2] ?? null) !== $key) {
+                throw new RuntimeException("Wrong alpha2ToNexi for {$key}");
+            }
+            $alpha2ToNexiLines[] = "'{$alpha2}' => self::{$id},";
         }
-        $template->fillPlaceholder('IDS', $lines);
+        $template->fillPlaceholder('IDS', $idLines);
+        $template->fillPlaceholder('NEXI_TO_ALPHA2', $nexiToAlpha2Lines);
+        $template->fillPlaceholder('ALPHA2_TO_NEXI', $alpha2ToNexiLines);
         $template->save("{$this->outputDirectory}/Dictionary/Language.php");
     }
 

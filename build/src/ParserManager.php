@@ -25,6 +25,7 @@ class ParserManager
             new Parser\HtmlParser\ApiKeysPage(),
             new Parser\HtmlParser\TestCardsPage(),
             new Parser\WPPluginCurrencies(),
+            new Parser\ISO639Parser(),
         ];
     }
 

@@ -38,6 +38,9 @@ $linkProvider = new LinkProvider($urlReader);
 $api = new API();
 $parser = new ParserManager($api, $urlReader);
 $urls = array_merge(
+    [
+        'https://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt',
+    ],
     $linkProvider->getUrls('https://developer.nexi.it/en/servizio-ecommerce/', ['https://developer.nexi.it/en/']),
     [
         'https://plugins.trac.wordpress.org/browser/cartasi-x-pay/trunk/src/classes/Nexi/WC_Gateway_NPG_Currency.php?format=txt',

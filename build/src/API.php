@@ -28,6 +28,8 @@ class API
 
     private ?Webhook\Response $webhookResponse = null;
 
+    private array $alpha3ToAlpha2Map = [];
+
     private string $baseUrlTestSource = '';
     private string $baseUrlTest = '';
 
@@ -57,6 +59,21 @@ class API
 
     private string $apiKeyTestSource = '';
     private string $apiKeyTest = '';
+
+    public function setISO639Alpha3ToAlpha2Map(array $map): self
+    {
+        if ($this->alpha3ToAlpha2Map !== [] && $this->alpha3ToAlpha2Map !== $map) {
+            throw new RuntimeException('Duplicated and incompatible alpha3ToAlpha2Map');
+        }
+        $this->alpha3ToAlpha2Map = $map;
+
+        return $this;
+    }
+
+    public function getISO639Alpha3ToAlpha2Map(): array
+    {
+        return $this->alpha3ToAlpha2Map;
+    }
 
     /**
      * @return $this
