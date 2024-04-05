@@ -26,10 +26,4 @@ interface Configuration
      * Get the API key.
      */
     public function getApiKey(): string;
-
-    /**
-     * Allow unsafe HTTPS connections.
-     * Use with caution!
-     */
-    public function allowUnsafeHttps(): bool;
 }

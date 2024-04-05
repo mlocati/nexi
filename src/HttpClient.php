@@ -7,13 +7,6 @@ namespace MLocati\Nexi;
 interface HttpClient
 {
     /**
-     * Allow insecure HTTPS connections?
-     *
-     * @var int
-     */
-    const FLAG_ALLOWINSECUREHTTPS = 0b1;
-
-    /**
      * Perform an HTTP request.
      *
      * @param string $method the request method ('GET', 'POST', ...)

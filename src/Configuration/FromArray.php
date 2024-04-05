@@ -21,16 +21,10 @@ class FromArray implements Configuration
     private $apiKey;
 
     /**
-     * @var bool
-     */
-    private $unsafeHttps;
-
-    /**
      * @param array $data {
      *                    environment?: string, // 'test' for test environment, empty/missing for production
      *                    baseUrl?: string, // if missing or empty: we'll use the default base URL for test or production
      *                    apiKey?: string, // if missing or empty: for test we'll use the default API key, for production it's required
-     *                    unsafeHttps?: bool, // allow using self-signed/expired/wrong HTTPS certificates: USE WITH CARE!
      *                    }
      *
      * @throws \RuntimeException in case of missing/wrong parameters
@@ -55,7 +49,6 @@ class FromArray implements Configuration
                 throw new RuntimeException('Missing apiKey in configuration');
             }
         }
-        $this->unsafeHttps = ($data['unsafeHttps'] ?? false) === true;
     }
 
     /**
@@ -76,15 +69,5 @@ class FromArray implements Configuration
     public function getApiKey(): string
     {
         return $this->apiKey;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see \MLocati\Nexi\Configuration::allowUnsafeHttps()
-     */
-    public function allowUnsafeHttps(): bool
-    {
-        return $this->unsafeHttps;
     }
 }

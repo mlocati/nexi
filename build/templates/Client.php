@@ -71,14 +71,11 @@ class Client
      */
     protected function buildHttpClient(): HttpClient
     {
-        $flags = 0
-            | ($this->configuration->allowUnsafeHttps() ? HttpClient::FLAG_ALLOWINSECUREHTTPS : 0)
-            | 0;
         if (HttpClient\Curl::isAvailable()) {
-            return new HttpClient\Curl($flags);
+            return new HttpClient\Curl();
         }
         if (HttpClient\StreamWrapper::isAvailable()) {
-            return new HttpClient\StreamWrapper($flags);
+            return new HttpClient\StreamWrapper();
         }
         throw new Exception\NoHttpClient();
     }
