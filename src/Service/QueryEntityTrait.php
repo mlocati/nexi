@@ -18,7 +18,7 @@ trait QueryEntityTrait
         $data = (array) $this->_getRawData();
         $params = array_map(
             static function ($value) {
-                $type = gettype($this);
+                $type = gettype($value);
                 switch ($type) {
                     case 'boolean':
                         return $value ? '1' : '0';
