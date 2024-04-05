@@ -208,7 +208,7 @@ class Order extends Entity
     /**
      * Object containing the customer detail. Sending the content of this object increases the security level of the transaction, thus increasing the probability that two-factor authentication will not be requested in the payment.
      *
-     * @required in request of createOrderForMotoPayment
+     * @required in the createOrderForMotoPayment method
      * @optional in other cases
      *
      * @throws \MLocati\Nexi\Exception\WrongFieldType
@@ -234,7 +234,7 @@ class Order extends Entity
     /**
      * Object containing the customer detail. Sending the content of this object increases the security level of the transaction, thus increasing the probability that two-factor authentication will not be requested in the payment.
      *
-     * @required in request of createOrderForMotoPayment
+     * @required in the createOrderForMotoPayment method
      * @optional in other cases
      *
      * @return $this
@@ -312,7 +312,7 @@ class Order extends Entity
             'amount' => true,
             'currency' => true,
             'customerInfo' => [
-                'createOrderForMotoPayment' => 'request',
+                'createOrderForMotoPayment' => true,
             ],
         ];
     }

@@ -18,10 +18,10 @@ class Field
     public bool $isArray = false;
     public string $default = '';
     public ?Entity $entity = null;
-    private array $required = [
-        0 => [],
-        1 => [],
-    ];
+    /**
+     * @var \MLocati\Nexi\Build\API\Field\Required[]
+     */
+    private array $requiredByMethod = [];
 
     private function __construct(
         public readonly FieldType $type,
@@ -68,37 +68,39 @@ class Field
 
     public function addRequired(Field\Required $required): void
     {
-        $key = $required->required ? 1 : 0;
-        if (isset($this->required[$key][$required->methodName])) {
-            $this->required[$key][$required->methodName]->mergeInfo($required);
+        if (isset($this->requiredByMethod[$required->methodName])) {
+            $this->requiredByMethod[$required->methodName]->merge($required);
         } else {
-            $this->required[$key][$required->methodName] = $required;
+            $this->requiredByMethod[$required->methodName] = $required;
         }
     }
 
     public function isAlwaysRequired(): bool
     {
-        return $this->required[0] === [] && $this->required[1] !== [];
+        if ($this->requiredByMethod === []) {
+            throw new RuntimeException('No requirements specified');
+        }
+        foreach ($this->requiredByMethod as $required) {
+            if (!$required->isAlwaysRequired()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getRequiredPHPDocLines(): array
+    public function isAlwaysOptional(): bool
     {
-        if ($this->required[1] === []) {
-            return ['@optional'];
+        if ($this->requiredByMethod === []) {
+            throw new RuntimeException('No requirements specified');
         }
-        if ($this->required[0] === []) {
-            return ['@required'];
+        foreach ($this->requiredByMethod as $required) {
+            if (!$required->isAlwaysOptional()) {
+                return false;
+            }
         }
-        $result = [];
-        foreach ($this->required[1] as $when) {
-            $result[] = (string) $when;
-        }
-        $result[] = '@optional in other cases';
 
-        return $result;
+        return true;
     }
 
     /**
@@ -160,11 +162,32 @@ class Field
                 $this->examples[] = $example;
             }
         }
-        foreach ($field->required as $whens) {
-            foreach ($whens as $when) {
-                $this->addRequired($when);
+        foreach ($field->requiredByMethod as $required) {
+            $this->addRequired($required);
+        }
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRequiredPHPDocLines(): array
+    {
+        if ($this->isAlwaysRequired()) {
+            return ['@required'];
+        }
+        if ($this->isAlwaysOptional()) {
+            return ['@optional'];
+        }
+        $lines = [];
+        foreach ($this->requiredByMethod as $required) {
+            $line = $required->getRequiredPHPDocLine();
+            if ($line !== '') {
+                $lines[] = $line;
             }
         }
+        $lines[] = '@optional in other cases';
+
+        return $lines;
     }
 
     /**
@@ -172,27 +195,18 @@ class Field
      */
     public function getRequiredSpecLines(): array
     {
-        if ($this->required[1] === []) {
+        if ($this->isAlwaysOptional()) {
             return [];
         }
-        if ($this->required[0] === []) {
+        if ($this->isAlwaysRequired()) {
             return ["'{$this->name}' => true,"];
         }
         $lines = ["'{$this->name}' => ["];
-        foreach ($this->required[1] as $required) {
-            $line = "    '{$required->methodName}' => ";
-            if ($required->request === $required->response) {
-                if ($required->request === false) {
-                    continue;
-                }
-                $line .= 'true';
-            } elseif ($required->request) {
-                $line .= "'request'";
-            } else {
-                $line .= "'response'";
+        foreach ($this->requiredByMethod as $required) {
+            $line = $required->getRequiredSpecLine();
+            if ($line !== '') {
+                $lines[] = "    {$line},";
             }
-            $line .= ',';
-            $lines[] = $line;
         }
         $lines[] = '],';
 

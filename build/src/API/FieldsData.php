@@ -15,8 +15,7 @@ class FieldsData
         public readonly API $api,
         public readonly string $see,
         public readonly string $methodName,
-        public readonly bool $request = false,
-        public readonly bool $response = false,
+        public readonly Field\Required\When $when,
         private readonly array $entityNamesByPath = [],
     ) {
     }

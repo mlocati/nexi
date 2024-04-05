@@ -260,8 +260,8 @@ class PaymentSession extends Entity
      * Merchant URL where the cardholder is redirected once the hosted payment completes.
      * The field value must start with “http://” or “https://” and the standard ports 80 or 443 must be used.
      *
-     * @required in request of createOrderForHostedPayment
-     * @required in request of createXPayBuildOrder
+     * @required in the createOrderForHostedPayment method
+     * @required in the createXPayBuildOrder method
      * @optional in other cases
      * Maximum length: 2048
      *
@@ -278,8 +278,8 @@ class PaymentSession extends Entity
      * Merchant URL where the cardholder is redirected once the hosted payment completes.
      * The field value must start with “http://” or “https://” and the standard ports 80 or 443 must be used.
      *
-     * @required in request of createOrderForHostedPayment
-     * @required in request of createXPayBuildOrder
+     * @required in the createOrderForHostedPayment method
+     * @required in the createXPayBuildOrder method
      * @optional in other cases
      * Maximum length: 2048
      *
@@ -296,8 +296,8 @@ class PaymentSession extends Entity
      * Merchant URL where the cardholder is redirected once the hosted payment is abandoned.
      * The field value must start with “http://” or “https://” and the standard ports 80 or 443 must be used.
      *
-     * @required in request of createOrderForHostedPayment
-     * @required in request of createXPayBuildOrder
+     * @required in the createOrderForHostedPayment method
+     * @required in the createXPayBuildOrder method
      * @optional in other cases
      * Maximum length: 2048
      *
@@ -314,8 +314,8 @@ class PaymentSession extends Entity
      * Merchant URL where the cardholder is redirected once the hosted payment is abandoned.
      * The field value must start with “http://” or “https://” and the standard ports 80 or 443 must be used.
      *
-     * @required in request of createOrderForHostedPayment
-     * @required in request of createXPayBuildOrder
+     * @required in the createOrderForHostedPayment method
+     * @required in the createXPayBuildOrder method
      * @optional in other cases
      * Maximum length: 2048
      *
@@ -379,12 +379,12 @@ class PaymentSession extends Entity
             'amount' => true,
             'language' => true,
             'resultUrl' => [
-                'createOrderForHostedPayment' => 'request',
-                'createXPayBuildOrder' => 'request',
+                'createOrderForHostedPayment' => true,
+                'createXPayBuildOrder' => true,
             ],
             'cancelUrl' => [
-                'createOrderForHostedPayment' => 'request',
-                'createXPayBuildOrder' => 'request',
+                'createOrderForHostedPayment' => true,
+                'createXPayBuildOrder' => true,
             ],
         ];
     }

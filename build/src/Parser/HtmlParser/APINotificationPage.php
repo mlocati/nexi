@@ -44,7 +44,7 @@ class APINotificationPage extends APIPage
             api: $api,
             see: "{$see}#tab_body",
             methodName: 'webhook',
-            request: true,
+            when: API\Field\Required\When::Receiving,
         );
         $result = new Webhook\Request("{$see}#tab_body");
         foreach ($this->extractFields($data, $container, ['parameters', 'body'], false) as $field) {

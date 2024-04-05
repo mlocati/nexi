@@ -101,7 +101,7 @@ class APIPage extends HtmlParser
                 api: $api,
                 see: "{$see}#tab_response",
                 methodName: $methodDefinition->name,
-                response: true,
+                when: Field\Required\When::Receiving,
                 entityNamesByPath: $methodDefinition->getResponseBodyEntityNames($statusCode),
             );
 
@@ -138,7 +138,7 @@ class APIPage extends HtmlParser
             api: $api,
             see: "{$see}#tab_header",
             methodName: $methodName,
-            request: true,
+            when: Field\Required\When::Sending,
         );
         $flags = 0;
         foreach ($this->extractFields($data, $parent, ['parameters', 'header'], false) as $field) {
@@ -169,7 +169,7 @@ class APIPage extends HtmlParser
             api: $api,
             see: "{$see}#tab_url",
             methodName: $methodName,
-            request: true,
+            when: Field\Required\When::Sending,
         );
 
         return $this->extractFields($data, $parent, ['parameters', 'path'], false);
@@ -184,7 +184,7 @@ class APIPage extends HtmlParser
             api: $api,
             see: "{$see}#tab_url",
             methodName: $methodName,
-            request: true,
+            when: Field\Required\When::Sending,
         );
 
         return $this->extractFields($data, $parent, ['parameters', 'query'], true);
@@ -199,7 +199,7 @@ class APIPage extends HtmlParser
             api: $api,
             see: "{$see}#tab_body",
             methodName: $methodDefinition->name,
-            request: true,
+            when: Field\Required\When::Sending,
             entityNamesByPath: $methodDefinition->getRequestBodyEntityNames(),
         );
 
@@ -279,10 +279,9 @@ class APIPage extends HtmlParser
         $rawFormat = $this->getNormalizedText($cell);
 
         $required = new Field\Required(
-            required: $isRequired,
             methodName: $data->methodName,
-            request: $data->request,
-            response: $data->response,
+            when: $data->when,
+            required: $isRequired,
         );
 
         return $this->buildField(

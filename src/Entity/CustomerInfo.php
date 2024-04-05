@@ -53,7 +53,7 @@ class CustomerInfo extends Entity
     /**
      * Name and surname of the cardholder.
      *
-     * @required in request of createOrderForMotoPayment
+     * @required in the request performed by the createOrderForMotoPayment method
      * @optional in other cases
      * Maximum length: 255
      *
@@ -69,7 +69,7 @@ class CustomerInfo extends Entity
     /**
      * Name and surname of the cardholder.
      *
-     * @required in request of createOrderForMotoPayment
+     * @required in the request performed by the createOrderForMotoPayment method
      * @optional in other cases
      * Maximum length: 255
      *
@@ -389,7 +389,7 @@ class CustomerInfo extends Entity
     {
         return [
             'cardHolderName' => [
-                'createOrderForMotoPayment' => 'request',
+                'createOrderForMotoPayment' => 'send',
             ],
         ];
     }

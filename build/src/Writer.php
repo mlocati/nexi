@@ -744,6 +744,8 @@ class Writer
         $template->fillPlaceholder('HEADERFLAG_XAPIKEY', [(string) Method::HEADERFLAG_XAPIKEY], false);
         $template->fillPlaceholder('HEADERFLAG_CORRELATIONID', [(string) Method::HEADERFLAG_CORRELATIONID], false);
         $template->fillPlaceholder('HEADERFLAG_IDEMPOTENCYKEY', [(string) Method::HEADERFLAG_IDEMPOTENCYKEY], false);
+        $template->fillPlaceholder('WEBHOOK_METHODNAME', [Method\Definition::WEBHOOK_REQUEST], false);
+        $template->fillPlaceholder('WEBHOOK_INPUT', [Field\Required\When::Receiving->value], false);
         $template->fillPlaceholder('METHODS', $this->buildClientMethodsLines($api));
         $template->save("{$this->outputDirectory}/Client.php");
     }
@@ -870,20 +872,20 @@ class Writer
         $result[] = '{';
         if ($queryType !== null) {
             if ($queryTypeRequired) {
-                $result[] = '    $query->checkRequiredFields(__FUNCTION__, \'request\');';
+                $result[] = '    $query->checkRequiredFields(__FUNCTION__, \'' . Field\Required\When::Sending->value . '\');';
             } else {
                 $result[] = '    if ($query !== null) {';
-                $result[] = '        $query->checkRequiredFields(__FUNCTION__, \'request\');';
+                $result[] = '        $query->checkRequiredFields(__FUNCTION__, \'' . Field\Required\When::Sending->value . '\');';
                 $result[] = '    }';
             }
         }
         if ($bodyType !== null) {
             if ($bodyType->isArrayOf) {
                 $result[] = '    foreach ($requestBody as $requestBodyItem) {';
-                $result[] = '        $requestBodyItem->checkRequiredFields(__FUNCTION__, \'request\');';
+                $result[] = '        $requestBodyItem->checkRequiredFields(__FUNCTION__, \'' . Field\Required\When::Sending->value . '\');';
                 $result[] = '    }';
             } else {
-                $result[] = '    $requestBody->checkRequiredFields(__FUNCTION__, \'request\');';
+                $result[] = '    $requestBody->checkRequiredFields(__FUNCTION__, \'' . Field\Required\When::Sending->value . '\');';
             }
         }
         $buildUrlParams = ["'{$method->path}'"];

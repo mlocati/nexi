@@ -24,7 +24,7 @@ class Session extends Entity implements \MLocati\Nexi\Service\QueryEntityInterfa
     /**
      * Session identifier.
      *
-     * @required in request of getXPayBuildOrderStatus
+     * @required in the getXPayBuildOrderStatus method
      * @optional in other cases
      *
      * @throws \MLocati\Nexi\Exception\WrongFieldType
@@ -39,7 +39,7 @@ class Session extends Entity implements \MLocati\Nexi\Service\QueryEntityInterfa
     /**
      * Session identifier.
      *
-     * @required in request of getXPayBuildOrderStatus
+     * @required in the getXPayBuildOrderStatus method
      * @optional in other cases
      *
      * @return $this
@@ -60,7 +60,7 @@ class Session extends Entity implements \MLocati\Nexi\Service\QueryEntityInterfa
     {
         return [
             'sessionId' => [
-                'getXPayBuildOrderStatus' => 'request',
+                'getXPayBuildOrderStatus' => true,
             ],
         ];
     }

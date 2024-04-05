@@ -54,6 +54,7 @@ class Client
         if ($this->notificationRequest === null) {
             $data = $this->decodeJsonToObject(file_get_contents('php://input') ?: '');
             $notificationRequest = new Entity\Webhook\Request($data);
+            $notificationRequest->checkRequiredFields('/* <<WEBHOOK_METHODNAME>> */', '/* <<WEBHOOK_INPUT>> */');
             if ((string) $notificationRequest->getSecurityToken() === '') {
                 throw new Exception\MissingField('securityToken');
             }
