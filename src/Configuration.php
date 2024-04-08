@@ -31,13 +31,47 @@ interface Configuration
     const DEFAULT_BASEURL_PRODUCTION = 'https://xpay.nexigroup.com/api/phoenix-0.0/psp/api/v1/';
 
     /**
-     * This is an API key you can use for tests.
+     * This is an API key you can use for tests (implicit accounting).
      *
      * @see https://developer.nexi.it/en/area-test/api-key
      *
      * @var string
      */
-    const DEFAULT_APIKEY_TEST = '5d952446-9004-4023-9eae-a527a152846b';
+    const DEFAULT_APIKEY_IMPLICIT_TEST = '5d952446-9004-4023-9eae-a527a152846b';
+
+    /**
+     * This is a terminal ID you can use for tests (implicit accounting).
+     *
+     * @see https://developer.nexi.it/en/area-test/api-key
+     *
+     * @var string
+     */
+    const DEFAULT_TERMINALID_IMPLICIT_TEST = '97061508';
+
+    /**
+     * This is an API key you can use for tests (explicit accounting).
+     *
+     * @see https://developer.nexi.it/en/area-test/api-key
+     *
+     * @var string
+     */
+    const DEFAULT_APIKEY_EXPLICIT_TEST = '2d708950-50a1-434e-9a93-5d3ae2f1dd9f';
+
+    /**
+     * This is a terminal ID you can use for tests (EXPLICIT accounting).
+     *
+     * @see https://developer.nexi.it/en/area-test/api-key
+     *
+     * @var string
+     */
+    const DEFAULT_TERMINALID_EXPLICIT_TEST = '99999986';
+
+    /**
+     * This is an API key you can use for tests.
+     *
+     * @var string
+     */
+    const DEFAULT_APIKEY_TEST = self::DEFAULT_APIKEY_IMPLICIT_TEST;
 
     /**
      * Get the API key.

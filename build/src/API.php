@@ -57,8 +57,8 @@ class API
     private string $testCardsSource = '';
     private ?array $testCards = null;
 
-    private string $apiKeyTestSource = '';
-    private string $apiKeyTest = '';
+    private string $apiTestParametersSource = '';
+    private array $apiTestParameters = [];
 
     public function setISO639Alpha3ToAlpha2Map(array $map): self
     {
@@ -249,25 +249,25 @@ class API
         return $this;
     }
 
-    public function setApiKeyTest(string $source, string $value): self
+    public function setApiTestParameters(string $source, array $value): self
     {
-        if ($this->apiKeyTest !== '' && $this->apiKeyTest !== $value) {
-            throw new RuntimeException('Duplicated and incompatible test API key');
+        if ($this->apiTestParameters !== [] && $this->apiTestParameters !== $value) {
+            throw new RuntimeException('Duplicated and incompatible API test parameters');
         }
-        $this->apiKeyTestSource = $source;
-        $this->apiKeyTest = $value;
+        $this->apiTestParametersSource = $source;
+        $this->apiTestParameters = $value;
 
         return $this;
     }
 
-    public function getApiKeyTest(): string
+    public function getApiTestParametersSource(): string
     {
-        return $this->apiKeyTest;
+        return $this->apiTestParametersSource;
     }
 
-    public function getApiKeyTestSource(): string
+    public function getApiTestParameters(): array
     {
-        return $this->apiKeyTestSource;
+        return $this->apiTestParameters;
     }
 
     public function getLanguagesSource(): string
