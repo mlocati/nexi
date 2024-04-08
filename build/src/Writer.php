@@ -63,13 +63,13 @@ class Writer
         if ($baseUrlProductionSource === '') {
             throw new RuntimeException('Missing source of base URL for production');
         }
-        $apiKeyTest = $api->getApiKeyTest();
-        if ($apiKeyTest === '') {
-            throw new RuntimeException('Missing API key for test');
+        $apiTestParameters = $api->getApiTestParameters();
+        if ($apiTestParameters === '') {
+            throw new RuntimeException('Missing API test parameters');
         }
-        $apiKeyTestSource = $api->getApiKeyTestSource();
-        if ($apiKeyTestSource === '') {
-            throw new RuntimeException('Missing source of API key for test');
+        $apiTestParametersSource = $api->getApiTestParametersSource();
+        if ($apiTestParametersSource === '') {
+            throw new RuntimeException('Missing source of API test parameters');
         }
         $template = Writer\Template::fromFile("{$this->templatesDirectory}/Configuration.php");
         $template->fillPlaceholder('TEST_URL_PHPDOC', [
@@ -92,16 +92,46 @@ class Writer
             ' */',
         ]);
         $template->fillPlaceholder('PRODUCTION_URL', [$baseUrlProduction], false);
-        $template->fillPlaceholder('TEST_APIKEY_PHPDOC', [
+        $template->fillPlaceholder('TEST_APIKEY_IMPLICIT_PHPDOC', [
             '/**',
-            ' * This is an API key you can use for tests.',
+            ' * This is an API key you can use for tests (implicit accounting).',
             ' *',
-            " * @see {$apiKeyTestSource}",
+            " * @see {$apiTestParametersSource}",
             ' *',
             ' * @var string',
             ' */',
         ]);
-        $template->fillPlaceholder('TEST_APIKEY', [$apiKeyTest], false);
+        $template->fillPlaceholder('TEST_APIKEY_IMPLICIT', [$apiTestParameters['IMPLICIT']['apiKey']], false);
+        $template->fillPlaceholder('TEST_TERMINALID_IMPLICIT_PHPDOC', [
+            '/**',
+            ' * This is a terminal ID you can use for tests (implicit accounting).',
+            ' *',
+            " * @see {$apiTestParametersSource}",
+            ' *',
+            ' * @var string',
+            ' */',
+        ]);
+        $template->fillPlaceholder('TEST_TERMINALID_IMPLICIT', [$apiTestParameters['IMPLICIT']['terminalId']], false);
+        $template->fillPlaceholder('TEST_APIKEY_EXPLICIT_PHPDOC', [
+            '/**',
+            ' * This is an API key you can use for tests (explicit accounting).',
+            ' *',
+            " * @see {$apiTestParametersSource}",
+            ' *',
+            ' * @var string',
+            ' */',
+        ]);
+        $template->fillPlaceholder('TEST_APIKEY_EXPLICIT', [$apiTestParameters['EXPLICIT']['apiKey']], false);
+        $template->fillPlaceholder('TEST_TERMINALID_EXPLICIT_PHPDOC', [
+            '/**',
+            ' * This is a terminal ID you can use for tests (EXPLICIT accounting).',
+            ' *',
+            " * @see {$apiTestParametersSource}",
+            ' *',
+            ' * @var string',
+            ' */',
+        ]);
+        $template->fillPlaceholder('TEST_TERMINALID_EXPLICIT', [$apiTestParameters['EXPLICIT']['terminalId']], false);
         $template->save("{$this->outputDirectory}/Configuration.php");
     }
 
