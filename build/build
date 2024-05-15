@@ -2,11 +2,11 @@
 <?php
 declare(strict_types=1);
 
-use MLocati\Nexi\Build\API;
-use MLocati\Nexi\Build\UrlReader;
-use MLocati\Nexi\Build\LinkProvider;
-use MLocati\Nexi\Build\ParserManager;
-use MLocati\Nexi\Build\Writer;
+use MLocati\Nexi\XPayWeb\Build\API;
+use MLocati\Nexi\XPayWeb\Build\UrlReader;
+use MLocati\Nexi\XPayWeb\Build\LinkProvider;
+use MLocati\Nexi\XPayWeb\Build\ParserManager;
+use MLocati\Nexi\XPayWeb\Build\Writer;
 
 if (!in_array(PHP_SAPI, ['cli', 'phpdbg'], true)) {
     echo "Invalid environment\n";
@@ -23,10 +23,10 @@ set_error_handler(static function ($errno, $errstr): void {
 
 spl_autoload_register(
     static function ($class) {
-        if (!str_starts_with($class, 'MLocati\\Nexi\\Build\\')) {
+        if (!str_starts_with($class, 'MLocati\\Nexi\\XPayWeb\\Build\\')) {
             return;
         }
-        $file = __DIR__ . '/src' . str_replace('\\', '/', substr($class, strlen('MLocati\\Nexi\\Build'))) . '.php';
+        $file = __DIR__ . '/src' . str_replace('\\', '/', substr($class, strlen('MLocati\\Nexi\\XPayWeb\\Build'))) . '.php';
         if (is_file($file)) {
             require_once $file;
         }

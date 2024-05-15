@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Configuration;
+namespace MLocati\Nexi\XPayWeb\Configuration;
 
-use MLocati\Nexi\Configuration;
+use MLocati\Nexi\XPayWeb\Configuration;
 
 use RuntimeException;
 
@@ -54,7 +54,7 @@ class FromArray implements Configuration
     /**
      * {@inheritdoc}
      *
-     * @see \MLocati\Nexi\Configuration::getBaseUrl()
+     * @see \MLocati\Nexi\XPayWeb\Configuration::getBaseUrl()
      */
     public function getBaseUrl(): string
     {
@@ -64,7 +64,7 @@ class FromArray implements Configuration
     /**
      * {@inheritdoc}
      *
-     * @see \MLocati\Nexi\Configuration::getApiKey()
+     * @see \MLocati\Nexi\XPayWeb\Configuration::getApiKey()
      */
     public function getApiKey(): string
     {

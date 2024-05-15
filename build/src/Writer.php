@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build;
+namespace MLocati\Nexi\XPayWeb\Build;
 
-use MLocati\Nexi\Build\API\Entity;
-use MLocati\Nexi\Build\API\Field;
-use MLocati\Nexi\Build\API\FieldType;
-use MLocati\Nexi\Build\API\Method;
+use MLocati\Nexi\XPayWeb\Build\API\Entity;
+use MLocati\Nexi\XPayWeb\Build\API\Field;
+use MLocati\Nexi\XPayWeb\Build\API\FieldType;
+use MLocati\Nexi\XPayWeb\Build\API\Method;
 use RuntimeException;
 
 class Writer
@@ -486,7 +486,7 @@ class Writer
 
         $template->fillPlaceholder('NAMESPACE', $namespace === '' ? [] : [$namespace], false);
         $template->fillPlaceholder('CLASSNAME', [$className], false);
-        $template->fillPlaceholder('IMPLEMENTS', $entity->isQuery ? [' implements \\MLocati\\Nexi\\Service\\QueryEntityInterface'] : [''], true);
+        $template->fillPlaceholder('IMPLEMENTS', $entity->isQuery ? [' implements \\MLocati\\Nexi\\XPayWeb\\Service\\QueryEntityInterface'] : [''], true);
         $template->fillPlaceholder('FIELDS', $this->buildEntityFieldsLines($entity));
         $template->fillPlaceholder('REQUIRED_FIELDS', $this->buildEntityRequiredFieldsLines($entity));
         $filename = "{$this->outputDirectory}/Entity" . str_replace('\\', '/', $namespace) . '/' . $className . '.php';
@@ -497,7 +497,7 @@ class Writer
     {
         $result = [];
         if ($entity->isQuery) {
-            $result[] = 'use \\MLocati\\Nexi\\Service\\QueryEntityTrait;';
+            $result[] = 'use \\MLocati\\Nexi\\XPayWeb\\Service\\QueryEntityTrait;';
         }
         foreach ($entity->getFields() as $field) {
             if ($result !== []) {
@@ -516,9 +516,9 @@ class Writer
         }
         $uc1FieldName = ucfirst($field->name);
         if ($field->type === FieldType::Obj && $field->entity !== null) {
-            $entityFullName = '\\MLocati\\Nexi\\Entity\\' . $field->entity->name;
+            $entityFullName = '\\MLocati\\Nexi\\XPayWeb\\Entity\\' . $field->entity->name;
             if (str_contains($owner->name, '\\')) {
-                $entityRelativeName = '\\MLocati\\Nexi\\Entity\\' . $field->entity->name;
+                $entityRelativeName = '\\MLocati\\Nexi\\XPayWeb\\Entity\\' . $field->entity->name;
             } else {
                 $entityRelativeName = $field->entity->name;
             }
@@ -585,7 +585,7 @@ class Writer
             $allCommentChunks['restrictions'] = $restrictions;
         }
         $exceptions = [
-            '@throws \\MLocati\\Nexi\\Exception\\WrongFieldType',
+            '@throws \\MLocati\\Nexi\\XPayWeb\\Exception\\WrongFieldType',
         ];
         $allCommentChunks['getterExceptions'] = $exceptions;
         if ($phpDocType !== '') {
@@ -672,7 +672,7 @@ class Writer
         if ($owner->addGetOrCreate && !$field->isArray && $field->type === FieldType::Obj && $field->entity !== null) {
             $result[] = '';
             $result[] = '/**';
-            $result[] = " * @see \\MLocati\\Nexi\\Entity\\{$owner->name}::get{$uc1FieldName}()";
+            $result[] = " * @see \\MLocati\\Nexi\\XPayWeb\\Entity\\{$owner->name}::get{$uc1FieldName}()";
             $result[] = ' */';
             $result[] = "public function getOrCreate{$uc1FieldName}(): {$entityRelativeName}";
             $result[] = '{';
@@ -813,7 +813,7 @@ class Writer
         $phpDocParams = [];
         $phpParams = [];
         foreach ($method->getPathFields() as $field) {
-            /** @var \MLocati\Nexi\Build\API\Field $field */
+            /** @var \MLocati\Nexi\XPayWeb\Build\API\Field $field */
             if ($field->isArray) {
                 throw new RuntimeException('Not implemented');
             }
@@ -859,15 +859,15 @@ class Writer
             $commentChunks[] = ["@see {$method->see}"];
         }
         $throws = [
-            '@throws \\MLocati\\Nexi\\Exception\\HttpRequestFailed if the HTTP request could not be made',
+            '@throws \\MLocati\\Nexi\\XPayWeb\\Exception\\HttpRequestFailed if the HTTP request could not be made',
         ];
         if ($successType !== null || $errorCases->isSomeItemUsingJson) {
-            $throws[] = "@throws \\MLocati\\Nexi\\Exception\\InvalidJson if we couldn't decode the response body as JSON";
+            $throws[] = "@throws \\MLocati\\Nexi\\XPayWeb\\Exception\\InvalidJson if we couldn't decode the response body as JSON";
         }
         foreach ($errorCases->items as $item) {
             $throws[] = $item->getThrowsPhpDocLine();
         }
-        $throws[] = '@throws \\MLocati\\Nexi\\Exception\\ErrorResponse';
+        $throws[] = '@throws \\MLocati\\Nexi\\XPayWeb\\Exception\\ErrorResponse';
         $commentChunks[] = array_values(array_unique($throws));
 
         $signature = 'public function ' . $method->definition->name . '(';
@@ -886,7 +886,7 @@ class Writer
             } else {
                 if ($method->isReturnNullOn404()) {
                     $signature .= '?';
-                    $commentChunks[] = ['@return \\MLocati\\Nexi\\Entity\\' . $successType->entity->name . '|null returns NULL if not found'];
+                    $commentChunks[] = ['@return \\MLocati\\Nexi\\XPayWeb\\Entity\\' . $successType->entity->name . '|null returns NULL if not found'];
                 }
                 $signature .= 'Entity\\' . $successType->entity->name;
             }

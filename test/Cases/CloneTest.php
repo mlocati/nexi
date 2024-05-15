@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Test\Cases;
+namespace MLocati\Nexi\XPayWeb\Test\Cases;
 
-use MLocati\Nexi\Entity\Error;
-use MLocati\Nexi\Entity\Errors;
+use MLocati\Nexi\XPayWeb\Entity\Error;
+use MLocati\Nexi\XPayWeb\Entity\Errors;
 use PHPUnit\Framework\TestCase;
 
 class CloneTest extends TestCase

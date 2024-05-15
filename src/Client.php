@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi;
+namespace MLocati\Nexi\XPayWeb;
 
-use MLocati\Nexi\HttpClient\Response;
-use MLocati\Nexi\Service\QueryEntityInterface;
+use MLocati\Nexi\XPayWeb\HttpClient\Response;
+use MLocati\Nexi\XPayWeb\Service\QueryEntityInterface;
 use stdClass;
 
 /*
@@ -17,27 +17,27 @@ use stdClass;
 class Client
 {
     /**
-     * @var \MLocati\Nexi\Configuration
+     * @var \MLocati\Nexi\XPayWeb\Configuration
      */
     protected $configuration;
 
     /**
-     * @var \MLocati\Nexi\HttpClient
+     * @var \MLocati\Nexi\XPayWeb\HttpClient
      */
     protected $httpClient;
 
     /**
-     * @var \MLocati\Nexi\CorrelationProvider
+     * @var \MLocati\Nexi\XPayWeb\CorrelationProvider
      */
     protected $correlationProvider;
 
     /**
-     * @var \MLocati\Nexi\Entity\Webhook\Request|null
+     * @var \MLocati\Nexi\XPayWeb\Entity\Webhook\Request|null
      */
     private $notificationRequest;
 
     /**
-     * @throws \MLocati\Nexi\Exception\NoHttpClient if $httpClient is NULL and no HTTP client is available
+     * @throws \MLocati\Nexi\XPayWeb\Exception\NoHttpClient if $httpClient is NULL and no HTTP client is available
      */
     public function __construct(
         Configuration $configuration,
@@ -50,8 +50,8 @@ class Client
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\InvalidJson is no (valid) request data is detected
-     * @throws \MLocati\Nexi\Exception\MissingField is the received data does not contain a security token
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson is no (valid) request data is detected
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField is the received data does not contain a security token
      */
     public function getNotificationRequest(): Entity\Webhook\Request
     {
@@ -73,12 +73,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-orders-hpp
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function createOrderForHostedPayment(Entity\CreateOrderForHostedPayment\Request $requestBody): Entity\CreateOrderForHostedPayment\Response
     {
@@ -102,12 +102,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-orders-paybylink
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function createOrderForPayByLink(Entity\CreateOrderForPayByLink\Request $requestBody): Entity\PayByLinkResponse
     {
@@ -133,12 +133,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-paybylink-linkId-cancels
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Request rejected (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Request rejected (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
      * @return bool returns FALSE if not found
      */
@@ -164,12 +164,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-orders-2steps-init
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function twoSteps3DSInit(Entity\MultiStepInitRequest $requestBody): Entity\MultiStepInitResponse
     {
@@ -193,12 +193,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-orders-2steps-payment
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function twoSteps3DSPayment(Entity\MultiStepPaymentRequest $requestBody): Entity\OperationResult
     {
@@ -222,12 +222,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-orders-3steps-init
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function threeSteps3DSInit(Entity\MultiStepInitRequest $requestBody): Entity\MultiStepInitResponse
     {
@@ -251,12 +251,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-orders-3steps-validation
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function threeSteps3DSValidation(Entity\ThreeSteps3DSValidation\Request $requestBody): Entity\ThreeSteps3DSValidation\Response
     {
@@ -280,12 +280,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-orders-3steps-payment
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function threeSteps3DSPayment(Entity\MultiStepPaymentRequest $requestBody): Entity\OperationResult
     {
@@ -311,12 +311,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-orders-mit
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function createOrderForMerchantInitiatedTransaction(Entity\CreateOrderForMerchantInitiatedTransaction\Request $requestBody, string &$idempotencyKey = ''): Entity\OperationResult
     {
@@ -340,12 +340,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-orders-card_verification
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function cardVerification(Entity\CardVerification\Request $requestBody): Entity\OperationResult
     {
@@ -369,12 +369,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-orders-moto
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function createOrderForMotoPayment(Entity\CreateOrderForMotoPayment\Request $requestBody): Entity\OperationResult
     {
@@ -398,12 +398,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-orders-virtual_card
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function createVirtualCartOrder(Entity\CreateVirtualCartOrder\Request $requestBody): Entity\OperationResult
     {
@@ -428,12 +428,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-orders-build
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function createXPayBuildOrder(Entity\CreateXPayBuildOrder\Request $requestBody): Entity\FieldSet
     {
@@ -457,12 +457,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-build-finalize-payment
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function finalizeXPayBuildOrder(Entity\Session $requestBody): Entity\FinalizeXPayBuildOrder\Response
     {
@@ -486,12 +486,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-build-cancel
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function cancelXPayBuildOrder(Entity\Session $requestBody): Entity\CancelXPayBuildOrder\Response
     {
@@ -515,12 +515,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-build-state
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function getXPayBuildOrderStatus(?Entity\Session $query = null): Entity\GetXPayBuildOrderStatus\Response
     {
@@ -546,11 +546,11 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-orders
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function findOrders(?Entity\FindOrders\Query $query = null): Entity\FindOrders\Response
     {
@@ -577,13 +577,13 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-orders-orderId
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
-     * @return \MLocati\Nexi\Entity\FindOrderById\Response|null returns NULL if not found
+     * @return \MLocati\Nexi\XPayWeb\Entity\FindOrderById\Response|null returns NULL if not found
      */
     public function findOrderById(string $orderId): ?Entity\FindOrderById\Response
     {
@@ -608,11 +608,11 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-operations
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function findOperations(?Entity\FindOperations\Query $query = null): Entity\FindOperations\Response
     {
@@ -639,13 +639,13 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-operations-operationId
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
-     * @return \MLocati\Nexi\Entity\Operation|null returns NULL if not found
+     * @return \MLocati\Nexi\XPayWeb\Entity\Operation|null returns NULL if not found
      */
     public function findOperationById(string $operationId): ?Entity\Operation
     {
@@ -672,13 +672,13 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-operations-operationId-actions
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
-     * @return \MLocati\Nexi\Entity\GetOperationActions\Response|null returns NULL if not found
+     * @return \MLocati\Nexi\XPayWeb\Entity\GetOperationActions\Response|null returns NULL if not found
      */
     public function getOperationActions(string $operationId): ?Entity\GetOperationActions\Response
     {
@@ -706,14 +706,14 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-operations-operationId-refunds
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Request rejected (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Request rejected (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
-     * @return \MLocati\Nexi\Entity\OperationInfo|null returns NULL if not found
+     * @return \MLocati\Nexi\XPayWeb\Entity\OperationInfo|null returns NULL if not found
      */
     public function refund(string $operationId, Entity\AmountWithDescription $requestBody, string &$idempotencyKey = ''): ?Entity\OperationInfo
     {
@@ -743,14 +743,14 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-operations-operationId-captures
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Request rejected (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Request rejected (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
-     * @return \MLocati\Nexi\Entity\OperationInfo|null returns NULL if not found
+     * @return \MLocati\Nexi\XPayWeb\Entity\OperationInfo|null returns NULL if not found
      */
     public function capture(string $operationId, Entity\AmountWithDescription $requestBody, string &$idempotencyKey = ''): ?Entity\OperationInfo
     {
@@ -779,14 +779,14 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-operations-operationId-cancels
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Request rejected (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Request rejected (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
-     * @return \MLocati\Nexi\Entity\OperationInfo|null returns NULL if not found
+     * @return \MLocati\Nexi\XPayWeb\Entity\OperationInfo|null returns NULL if not found
      */
     public function cancel(string $operationId, Entity\Cancel\Request $requestBody): ?Entity\OperationInfo
     {
@@ -815,13 +815,13 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-contracts-customers-customerId
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
-     * @return \MLocati\Nexi\Entity\FindRecurringContractsByCustomerId\Response|null returns NULL if not found
+     * @return \MLocati\Nexi\XPayWeb\Entity\FindRecurringContractsByCustomerId\Response|null returns NULL if not found
      */
     public function findRecurringContractsByCustomerId(string $customerId): ?Entity\FindRecurringContractsByCustomerId\Response
     {
@@ -848,12 +848,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-contracts-contractId-deactivation
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function disableContract(string $contractId): void
     {
@@ -874,11 +874,11 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-payment_methods
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function listSupportedPaymentMethods(): Entity\ListSupportedPaymentMethods\Response
     {
@@ -900,12 +900,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-termsAndConditions
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function createTermsAndConditions(Entity\CreateTermsAndConditions\Request $requestBody): Entity\CreateTermsAndConditions\Response
     {
@@ -931,12 +931,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-terms_and_conditions-termsAndConditionsId
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function findTermsAndConditionsById(string $termsAndConditionsId): Entity\FindTermsAndConditionsById\Response
     {
@@ -961,12 +961,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-incrementals
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function incrementOrder(Entity\ChangeAmountRequest $requestBody, string &$idempotencyKey = ''): Entity\OperationResult
     {
@@ -992,12 +992,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-terms_and_conditions-termsAndConditionsId-cancels
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Request rejected (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Request rejected (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
      * @return bool returns FALSE if not found
      */
@@ -1025,12 +1025,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-delay_charges
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function delayedCharge(Entity\ChangeAmountRequest $requestBody, string &$idempotencyKey = ''): Entity\OperationResult
     {
@@ -1056,12 +1056,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-no_shows
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function noShowCharge(Entity\ChangeAmountRequest $requestBody, string &$idempotencyKey = ''): Entity\OperationResult
     {
@@ -1085,12 +1085,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-reservations
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function createReservation(Entity\CreateReservation\Request $requestBody): Entity\CreateReservation\Response
     {
@@ -1114,11 +1114,11 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-reservations
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function findReservations(?Entity\FindReservations\Query $query = null): Entity\FindReservations\Response
     {
@@ -1145,12 +1145,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-reservations-reservationId-paybylink
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function createPayByLinkForReservation(string $reservationId, Entity\CreatePayByLinkForReservation\Request $requestBody): Entity\PayByLinkResponse
     {
@@ -1176,13 +1176,13 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-reservations-reservationId
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
-     * @return \MLocati\Nexi\Entity\FindReservationById\Response|null returns NULL if not found
+     * @return \MLocati\Nexi\XPayWeb\Entity\FindReservationById\Response|null returns NULL if not found
      */
     public function findReservationById(string $reservationId): ?Entity\FindReservationById\Response
     {
@@ -1207,12 +1207,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-structures
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function createStructure(Entity\StructureInfo $requestBody): void
     {
@@ -1234,13 +1234,13 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-structures
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
-     * @return \MLocati\Nexi\Entity\StructureInfo|null returns NULL if not found
+     * @return \MLocati\Nexi\XPayWeb\Entity\StructureInfo|null returns NULL if not found
      */
     public function findStructures(): ?Entity\StructureInfo
     {
@@ -1267,13 +1267,13 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-structures-structureId
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
-     * @return \MLocati\Nexi\Entity\StructureInfo|null returns NULL if not found
+     * @return \MLocati\Nexi\XPayWeb\Entity\StructureInfo|null returns NULL if not found
      */
     public function findStructureById(string $structureId): ?Entity\StructureInfo
     {
@@ -1298,12 +1298,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-noshow_validation
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function noShowValidation(Entity\ReservationValidation $requestBody): void
     {
@@ -1325,12 +1325,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-delaycharge_validation
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function delayedChargeValidation(Entity\ReservationValidation $requestBody): void
     {
@@ -1352,12 +1352,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-incremental_validation
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function incrementOrderValidation(Entity\ReservationValidation $requestBody): void
     {
@@ -1379,12 +1379,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-structure_conditions
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function createStructureTermsAndConditions(Entity\CreateStructureTermsAndConditions\Request $requestBody): Entity\CreateStructureTermsAndConditions\Response
     {
@@ -1410,12 +1410,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-structure_conditions-structures-structureid
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function findStructureTermsAndConditionsByStructureId(string $structureid): array
     {
@@ -1440,12 +1440,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-structure_conditions-structureConditionId
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function findStructureTermsAndConditionsById(string $structureConditionId): Entity\FindStructureTermsAndConditionsById\Response
     {
@@ -1470,12 +1470,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-structure_conditions-structureConditionId-cancels
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Request rejected (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Request rejected (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
      * @return bool returns FALSE if not found
      */
@@ -1501,12 +1501,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-services
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function toggleService(Entity\ServiceRequest $requestBody): void
     {
@@ -1528,13 +1528,13 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-services
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      *
-     * @return \MLocati\Nexi\Entity\ServiceRequest|null returns NULL if not found
+     * @return \MLocati\Nexi\XPayWeb\Entity\ServiceRequest|null returns NULL if not found
      */
     public function getService(Entity\GetService\Query $query): ?Entity\ServiceRequest
     {
@@ -1560,12 +1560,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-custom_fields
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function createCustomField(Entity\CustomFieldDetails $requestBody): Entity\CreateCustomField\Response
     {
@@ -1589,12 +1589,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-custom_fields-customFieldId
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function getCustomField(string $customFieldId): Entity\CustomFieldDetails
     {
@@ -1619,12 +1619,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/get-structure_conditions-structureConditionId-pdf
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function getStructureTermsAndConditionsPdf(string $structureConditionId): void
     {
@@ -1648,12 +1648,12 @@ class Client
      *
      * @see https://developer.nexi.it/en/api/post-reservation-reservationId-mit
      *
-     * @throws \MLocati\Nexi\Exception\HttpRequestFailed if the HTTP request could not be made
-     * @throws \MLocati\Nexi\Exception\InvalidJson if we couldn't decode the response body as JSON
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse Unauthorized (HTTP code: 401)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed if the HTTP request could not be made
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson if we couldn't decode the response body as JSON
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Invalid request data (HTTP code: 400)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse Unauthorized (HTTP code: 401)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed Internal Server Error (HTTP code: 500)
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     public function payRecurringReservation(string $reservationId, Entity\PayRecurringReservation\Request $requestBody, string &$idempotencyKey = ''): void
     {
@@ -1671,7 +1671,7 @@ class Client
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\NoHttpClient
+     * @throws \MLocati\Nexi\XPayWeb\Exception\NoHttpClient
      */
     protected function buildHttpClient(): HttpClient
     {
@@ -1720,7 +1720,7 @@ class Client
     }
 
     /**
-     * @param \MLocati\Nexi\Entity|\MLocati\Nexi\Entity[]|null $requestBody
+     * @param \MLocati\Nexi\XPayWeb\Entity|\MLocati\Nexi\XPayWeb\Entity[]|null $requestBody
      */
     protected function invoke(string $method, string $url, int $headerFlags, $requestBody = null, string &$idempotencyKey = ''): HttpClient\Response
     {
@@ -1760,7 +1760,7 @@ class Client
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\InvalidJson
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson
      */
     protected function decodeJsonToArray(string $json): array
     {
@@ -1772,7 +1772,7 @@ class Client
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\InvalidJson
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson
      */
     protected function decodeJsonToObject(string $json): stdClass
     {
@@ -1785,8 +1785,8 @@ class Client
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     protected function throwErrorResponse(Response $response, array $cases): void
     {
@@ -1818,7 +1818,7 @@ class Client
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\InvalidJson
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson
      */
     private function decodeJson(string $json)
     {

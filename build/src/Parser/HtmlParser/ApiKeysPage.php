@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\Parser\HtmlParser;
+namespace MLocati\Nexi\XPayWeb\Build\Parser\HtmlParser;
 
 use DOMDocument;
 use DOMElement;
-use MLocati\Nexi\Build\API;
-use MLocati\Nexi\Build\Parser\HtmlParser;
+use MLocati\Nexi\XPayWeb\Build\API;
+use MLocati\Nexi\XPayWeb\Build\Parser\HtmlParser;
 use RuntimeException;
 
 class ApiKeysPage extends HtmlParser
@@ -17,7 +17,7 @@ class ApiKeysPage extends HtmlParser
     /**
      * {@inheritdoc}
      *
-     * @see \MLocati\Nexi\Build\Parser::shouldHandlePath()
+     * @see \MLocati\Nexi\XPayWeb\Build\Parser::shouldHandlePath()
      */
     public function shouldHandlePath(string $path): bool
     {
@@ -27,7 +27,7 @@ class ApiKeysPage extends HtmlParser
     /**
      * {@inheritdoc}
      *
-     * @see \MLocati\Nexi\Build\Parser\HtmlParser::parseDoc()
+     * @see \MLocati\Nexi\XPayWeb\Build\Parser\HtmlParser::parseDoc()
      */
     public function parseDoc(string $see, string $path, DOMDocument $page, API $api): void
     {

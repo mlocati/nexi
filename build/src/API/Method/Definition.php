@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\API\Method;
+namespace MLocati\Nexi\XPayWeb\Build\API\Method;
 
-use MLocati\Nexi\Build\API\Verb;
+use MLocati\Nexi\XPayWeb\Build\API\Verb;
 
 class Definition
 {

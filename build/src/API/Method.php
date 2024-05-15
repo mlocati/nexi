@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\API;
+namespace MLocati\Nexi\XPayWeb\Build\API;
 
-use MLocati\Nexi\Build\API;
-use MLocati\Nexi\Build\API\Method\Definition;
+use MLocati\Nexi\XPayWeb\Build\API;
+use MLocati\Nexi\XPayWeb\Build\API\Method\Definition;
 use RuntimeException;
 
 class Method
@@ -25,17 +25,17 @@ class Method
     public int $headerFlags = 0;
 
     /**
-     * @var \MLocati\Nexi\Build\API\Field[] with keys
+     * @var \MLocati\Nexi\XPayWeb\Build\API\Field[] with keys
      */
     private array $pathFields = [];
 
     /**
-     * @var \MLocati\Nexi\Build\API\Field[] with keys
+     * @var \MLocati\Nexi\XPayWeb\Build\API\Field[] with keys
      */
     private array $queryFields = [];
 
     /**
-     * @var \MLocati\Nexi\Build\API\Field[] with keys
+     * @var \MLocati\Nexi\XPayWeb\Build\API\Field[] with keys
      */
     private array $bodyFields = [];
 
@@ -45,7 +45,7 @@ class Method
     private array $responseCodes = [];
 
     /**
-     * @var \MLocati\Nexi\Build\API\Field[][] with keys
+     * @var \MLocati\Nexi\XPayWeb\Build\API\Field[][] with keys
      */
     private array $responseFields = [];
 
@@ -54,7 +54,7 @@ class Method
     private ?Method\Type $bodyType;
 
     /**
-     * @var \MLocati\Nexi\Build\API\Method\Type[]|null[] with keys
+     * @var \MLocati\Nexi\XPayWeb\Build\API\Method\Type[]|null[] with keys
      */
     private array $responseTypes;
 
@@ -76,7 +76,7 @@ class Method
     }
 
     /**
-     * @return \MLocati\Nexi\Build\API\Field[]
+     * @return \MLocati\Nexi\XPayWeb\Build\API\Field[]
      */
     public function getPathFields(): array
     {
@@ -92,7 +92,7 @@ class Method
     }
 
     /**
-     * @return \MLocati\Nexi\Build\API\Field[]
+     * @return \MLocati\Nexi\XPayWeb\Build\API\Field[]
      */
     public function getQueryFields(): array
     {
@@ -108,7 +108,7 @@ class Method
     }
 
     /**
-     * @return \MLocati\Nexi\Build\API\Field[]
+     * @return \MLocati\Nexi\XPayWeb\Build\API\Field[]
      */
     public function getBodyFields(): array
     {
@@ -139,7 +139,7 @@ class Method
     }
 
     /**
-     * @return \MLocati\Nexi\Build\API\Field[] with keys: http status codes
+     * @return \MLocati\Nexi\XPayWeb\Build\API\Field[] with keys: http status codes
      */
     public function getAllResponseFields(): array
     {
@@ -152,7 +152,7 @@ class Method
     }
 
     /**
-     * @return \MLocati\Nexi\Build\API\Field[]
+     * @return \MLocati\Nexi\XPayWeb\Build\API\Field[]
      */
     public function getResponseFields(int|string $httpResponseCode): array
     {
@@ -185,7 +185,7 @@ class Method
     }
 
     /**
-     * @return \MLocati\Nexi\Build\API\Method\Type[] array keys are the HTTP response codes
+     * @return \MLocati\Nexi\XPayWeb\Build\API\Method\Type[] array keys are the HTTP response codes
      */
     public function getResponseTypes(): array
     {
@@ -254,7 +254,7 @@ class Method
     }
 
     /**
-     * @param \MLocati\Nexi\Build\API\Field[] $fields
+     * @param \MLocati\Nexi\XPayWeb\Build\API\Field[] $fields
      */
     private function resolveType(API $api, array $fields, string $newEntityName, bool $addGetOrCreate, bool $isQuery): ?Method\Type
     {

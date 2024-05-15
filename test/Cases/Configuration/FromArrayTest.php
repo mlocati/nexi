@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Test\Cases\Configuration;
+namespace MLocati\Nexi\XPayWeb\Test\Cases\Configuration;
 
-use MLocati\Nexi\Configuration;
+use MLocati\Nexi\XPayWeb\Configuration;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Throwable;

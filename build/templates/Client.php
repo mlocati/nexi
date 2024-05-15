@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi;
+namespace MLocati\Nexi\XPayWeb;
 
-use MLocati\Nexi\HttpClient\Response;
-use MLocati\Nexi\Service\QueryEntityInterface;
+use MLocati\Nexi\XPayWeb\HttpClient\Response;
+use MLocati\Nexi\XPayWeb\Service\QueryEntityInterface;
 use stdClass;
 
 /* <<TOPCOMMENT>> */
@@ -13,27 +13,27 @@ use stdClass;
 class Client
 {
     /**
-     * @var \MLocati\Nexi\Configuration
+     * @var \MLocati\Nexi\XPayWeb\Configuration
      */
     protected $configuration;
 
     /**
-     * @var \MLocati\Nexi\HttpClient
+     * @var \MLocati\Nexi\XPayWeb\HttpClient
      */
     protected $httpClient;
 
     /**
-     * @var \MLocati\Nexi\CorrelationProvider
+     * @var \MLocati\Nexi\XPayWeb\CorrelationProvider
      */
     protected $correlationProvider;
 
     /**
-     * @var \MLocati\Nexi\Entity\Webhook\Request|null
+     * @var \MLocati\Nexi\XPayWeb\Entity\Webhook\Request|null
      */
     private $notificationRequest;
 
     /**
-     * @throws \MLocati\Nexi\Exception\NoHttpClient if $httpClient is NULL and no HTTP client is available
+     * @throws \MLocati\Nexi\XPayWeb\Exception\NoHttpClient if $httpClient is NULL and no HTTP client is available
      */
     public function __construct(
         Configuration $configuration,
@@ -46,8 +46,8 @@ class Client
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\InvalidJson is no (valid) request data is detected
-     * @throws \MLocati\Nexi\Exception\MissingField is the received data does not contain a security token
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson is no (valid) request data is detected
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField is the received data does not contain a security token
      */
     public function getNotificationRequest(): Entity\Webhook\Request
     {
@@ -67,7 +67,7 @@ class Client
     /* <<METHODS>> */
 
     /**
-     * @throws \MLocati\Nexi\Exception\NoHttpClient
+     * @throws \MLocati\Nexi\XPayWeb\Exception\NoHttpClient
      */
     protected function buildHttpClient(): HttpClient
     {
@@ -116,7 +116,7 @@ class Client
     }
 
     /**
-     * @param \MLocati\Nexi\Entity|\MLocati\Nexi\Entity[]|null $requestBody
+     * @param \MLocati\Nexi\XPayWeb\Entity|\MLocati\Nexi\XPayWeb\Entity[]|null $requestBody
      */
     protected function invoke(string $method, string $url, int $headerFlags, $requestBody = null, string &$idempotencyKey = ''): HttpClient\Response
     {
@@ -156,7 +156,7 @@ class Client
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\InvalidJson
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson
      */
     protected function decodeJsonToArray(string $json): array
     {
@@ -168,7 +168,7 @@ class Client
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\InvalidJson
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson
      */
     protected function decodeJsonToObject(string $json): stdClass
     {
@@ -181,8 +181,8 @@ class Client
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\ErrorResponse\Detailed
-     * @throws \MLocati\Nexi\Exception\ErrorResponse
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse\Detailed
+     * @throws \MLocati\Nexi\XPayWeb\Exception\ErrorResponse
      */
     protected function throwErrorResponse(Response $response, array $cases): void
     {
@@ -214,7 +214,7 @@ class Client
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\InvalidJson
+     * @throws \MLocati\Nexi\XPayWeb\Exception\InvalidJson
      */
     private function decodeJson(string $json)
     {

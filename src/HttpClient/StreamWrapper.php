@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\HttpClient;
+namespace MLocati\Nexi\XPayWeb\HttpClient;
 
-use MLocati\Nexi\Exception\HttpRequestFailed;
-use MLocati\Nexi\HttpClient;
+use MLocati\Nexi\XPayWeb\Exception\HttpRequestFailed;
+use MLocati\Nexi\XPayWeb\HttpClient;
 
 class StreamWrapper implements HttpClient
 {
@@ -17,7 +17,7 @@ class StreamWrapper implements HttpClient
     /**
      * {@inheritdoc}
      *
-     * @see \MLocati\Nexi\HttpClient::invoke()
+     * @see \MLocati\Nexi\XPayWeb\HttpClient::invoke()
      */
     public function invoke(string $method, string $url, array $headers, string $rawBody): Response
     {

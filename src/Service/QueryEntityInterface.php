@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Service;
+namespace MLocati\Nexi\XPayWeb\Service;
 
 interface QueryEntityInterface
 {

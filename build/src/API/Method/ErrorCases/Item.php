@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\API\Method\ErrorCases;
+namespace MLocati\Nexi\XPayWeb\Build\API\Method\ErrorCases;
 
 class Item
 {
@@ -15,7 +15,7 @@ class Item
         string $description,
         public readonly bool $withErrors,
     ) {
-        $this->exceptionClass = 'MLocati\\Nexi\\Exception\\ErrorResponse' . ($this->withErrors ? '\\Detailed' : '');
+        $this->exceptionClass = 'MLocati\\Nexi\\XPayWeb\\Exception\\ErrorResponse' . ($this->withErrors ? '\\Detailed' : '');
         $this->description = preg_replace(
             '/[\\s\\-]*\\b(No Header for this response|No Header and Body for this response)$/i',
             '',

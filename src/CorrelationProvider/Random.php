@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\CorrelationProvider;
+namespace MLocati\Nexi\XPayWeb\CorrelationProvider;
 
-use MLocati\Nexi\CorrelationProvider;
+use MLocati\Nexi\XPayWeb\CorrelationProvider;
 
 class Random implements CorrelationProvider
 {
     /**
      * {@inheritdoc}
      *
-     * @see \MLocati\Nexi\CorrelationProvider::getCorrelationID()
+     * @see \MLocati\Nexi\XPayWeb\CorrelationProvider::getCorrelationID()
      */
     public function getCorrelationID(string $method, string $url, string $requestBody): string
     {

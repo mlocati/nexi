@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build;
+namespace MLocati\Nexi\XPayWeb\Build;
 
-use MLocati\Nexi\Build\API\Entity;
-use MLocati\Nexi\Build\API\Field;
-use MLocati\Nexi\Build\API\Method;
-use MLocati\Nexi\Build\API\Webhook;
+use MLocati\Nexi\XPayWeb\Build\API\Entity;
+use MLocati\Nexi\XPayWeb\Build\API\Field;
+use MLocati\Nexi\XPayWeb\Build\API\Method;
+use MLocati\Nexi\XPayWeb\Build\API\Webhook;
 use RuntimeException;
 
 class API
@@ -15,12 +15,12 @@ class API
     public const ENTITYNAME_ERRORS = 'Errors';
 
     /**
-     * @var \MLocati\Nexi\Build\API\Method[] with keys
+     * @var \MLocati\Nexi\XPayWeb\Build\API\Method[] with keys
      */
     private array $methods = [];
 
     /**
-     * @var \MLocati\Nexi\Build\API\Entity[]
+     * @var \MLocati\Nexi\XPayWeb\Build\API\Entity[]
      */
     private array $entities = [];
 
@@ -90,7 +90,7 @@ class API
     }
 
     /**
-     * @return \MLocati\Nexi\Build\API\Method[]
+     * @return \MLocati\Nexi\XPayWeb\Build\API\Method[]
      */
     public function getMethods(): array
     {
@@ -144,9 +144,9 @@ class API
         throw new RuntimeException('More than one entity found!');
     }
     /**
-     * @param \MLocati\Nexi\Build\API\Field[] $fields
+     * @param \MLocati\Nexi\XPayWeb\Build\API\Field[] $fields
      *
-     * @return \MLocati\Nexi\Build\API\Entity[]
+     * @return \MLocati\Nexi\XPayWeb\Build\API\Entity[]
      */
     public function getCompatibleEntities(array $fields): array
     {
@@ -159,7 +159,7 @@ class API
     }
 
     /**
-     * @return \MLocati\Nexi\Build\API\Entity[]
+     * @return \MLocati\Nexi\XPayWeb\Build\API\Entity[]
      */
     public function getEntities(): array
     {

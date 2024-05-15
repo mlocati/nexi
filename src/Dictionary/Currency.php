@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Dictionary;
+namespace MLocati\Nexi\XPayWeb\Dictionary;
 
 use ReflectionClass;
 use RuntimeException;

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\Parser;
+namespace MLocati\Nexi\XPayWeb\Build\Parser;
 
 use DOMDocument;
 use DOMElement;
 use DOMNode;
 use DOMXPath;
 use Generator;
-use MLocati\Nexi\Build\API;
-use MLocati\Nexi\Build\DOMLoader;
-use MLocati\Nexi\Build\Parser;
+use MLocati\Nexi\XPayWeb\Build\API;
+use MLocati\Nexi\XPayWeb\Build\DOMLoader;
+use MLocati\Nexi\XPayWeb\Build\Parser;
 use RuntimeException;
 
 abstract class HtmlParser implements Parser
@@ -25,7 +25,7 @@ abstract class HtmlParser implements Parser
     /**
      * {@inheritdoc}
      *
-     * @see \MLocati\Nexi\Build\Parser::parse()
+     * @see \MLocati\Nexi\XPayWeb\Build\Parser::parse()
      */
     public function parse(string $see, string $path, string $contents, API $api): void
     {

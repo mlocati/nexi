@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Test\Cases;
+namespace MLocati\Nexi\XPayWeb\Test\Cases;
 
 use PHPUnit\Framework\TestCase;
 
@@ -13,7 +13,7 @@ class ValidPHPTest extends TestCase
      */
     public static function provideClassNames(): array
     {
-        $nsPrefix = 'MLocati\\Nexi\\';
+        $nsPrefix = 'MLocati\\Nexi\\XPayWeb\\';
         $dirPrefix = MLNEXI_TEST_ROOTDIR . '/src/';
         $result = [];
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPrefix));

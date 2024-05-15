@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\API;
+namespace MLocati\Nexi\XPayWeb\Build\API;
 
-use MLocati\Nexi\Build\API;
+use MLocati\Nexi\XPayWeb\Build\API;
 use RuntimeException;
 
 class FieldsData

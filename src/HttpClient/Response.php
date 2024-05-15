@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\HttpClient;
+namespace MLocati\Nexi\XPayWeb\HttpClient;
 
 class Response
 {

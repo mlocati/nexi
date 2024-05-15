@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build;
+namespace MLocati\Nexi\XPayWeb\Build;
 
 use RuntimeException;
 
 class ParserManager
 {
     /**
-     * @var \MLocati\Nexi\Build\Parser[]
+     * @var \MLocati\Nexi\XPayWeb\Build\Parser[]
      */
     private array $parsers;
 

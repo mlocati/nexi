@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Exception\ErrorResponse;
+namespace MLocati\Nexi\XPayWeb\Exception\ErrorResponse;
 
-use MLocati\Nexi\Entity\Errors;
-use MLocati\Nexi\Exception\ErrorResponse;
+use MLocati\Nexi\XPayWeb\Entity\Errors;
+use MLocati\Nexi\XPayWeb\Exception\ErrorResponse;
 
 /**
  * Exception thrown when an HTTP request can't be performed, with detailed errors.
@@ -13,7 +13,7 @@ use MLocati\Nexi\Exception\ErrorResponse;
 class Detailed extends ErrorResponse
 {
     /**
-     * @var \MLocati\Nexi\Entity\Errors
+     * @var \MLocati\Nexi\XPayWeb\Entity\Errors
      */
     private $errors;
 
