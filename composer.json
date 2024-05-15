@@ -1,15 +1,16 @@
 {
-    "name": "mlocati/nexi",
-    "description": "An unofficial SDK for the Nexi payment gateway",
+    "name": "mlocati/nexi-xpay-web",
+    "description": "An unofficial SDK for the Nexi XPay Web payment gateway (Intesa Sanpaolo bank)",
     "type": "library",
     "keywords": [
         "nexi",
         "xpay",
         "x-pay",
         "gateway",
-        "payment"
+        "payment",
+		"intesa"
     ],
-    "homepage": "https://github.com/mlocati/nexi",
+    "homepage": "https://github.com/mlocati/nexi-xpay-web",
     "license": "MIT",
     "authors": [
         {
@@ -18,8 +19,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/mlocati/nexi/issues",
-        "source": "https://github.com/mlocati/nexi"
+        "issues": "https://github.com/mlocati/nexi-xpay-web/issues",
+        "source": "https://github.com/mlocati/nexi-xpay-web"
     },
     "funding": [
         {
@@ -44,12 +45,12 @@
     },
     "autoload": {
         "psr-4": {
-            "MLocati\\Nexi\\": "src/"
+            "MLocati\\Nexi\\XPayWeb\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "MLocati\\Nexi\\Test\\": "test/"
+            "MLocati\\Nexi\\XPayWeb\\Test\\": "test/"
         }
     },
     "minimum-stability": "stable",

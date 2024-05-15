@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Entity/* <<NAMESPACE>> */;
+namespace MLocati\Nexi\XPayWeb\Entity/* <<NAMESPACE>> */;
 
-use MLocati\Nexi\Entity;
+use MLocati\Nexi\XPayWeb\Entity;
 
 /* <<TOPCOMMENT>> */
 
@@ -16,7 +16,7 @@ class /* <<CLASSNAME>> */ EntityTemplate /* <</CLASSNAME>> */ extends Entity/* <
     /**
      * {@inheritdoc}
      *
-     * @see \MLocati\Nexi\Entity::getRequiredFields()
+     * @see \MLocati\Nexi\XPayWeb\Entity::getRequiredFields()
      */
     protected function getRequiredFields(): array
     {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\API\Webhook;
+namespace MLocati\Nexi\XPayWeb\Build\API\Webhook;
 
-use MLocati\Nexi\Build\API\Field;
+use MLocati\Nexi\XPayWeb\Build\API\Field;
 use RuntimeException;
 
 class Request
@@ -25,7 +25,7 @@ class Request
     }
 
     /**
-     * @return \MLocati\Nexi\Build\API\Field
+     * @return \MLocati\Nexi\XPayWeb\Build\API\Field
      */
     public function getFields(): array
     {

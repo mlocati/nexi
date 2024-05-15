@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Test\Cases;
+namespace MLocati\Nexi\XPayWeb\Test\Cases;
 
-use MLocati\Nexi\Dictionary\Language;
+use MLocati\Nexi\XPayWeb\Dictionary\Language;
 use PHPUnit\Framework\TestCase;
 
 class LanguageTest extends TestCase
 {
     /**
-     * @var \MLocati\Nexi\Dictionary\Language
+     * @var \MLocati\Nexi\XPayWeb\Dictionary\Language
      */
     private static $language;
 

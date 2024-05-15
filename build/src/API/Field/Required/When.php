@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\API\Field\Required;
+namespace MLocati\Nexi\XPayWeb\Build\API\Field\Required;
 
 enum When: string
 {

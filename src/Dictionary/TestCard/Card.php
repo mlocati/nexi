@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Dictionary\TestCard;
+namespace MLocati\Nexi\XPayWeb\Dictionary\TestCard;
 
 class Card
 {

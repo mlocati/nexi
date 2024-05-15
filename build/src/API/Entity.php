@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\API;
+namespace MLocati\Nexi\XPayWeb\Build\API;
 
-use MLocati\Nexi\Build\Exception;
+use MLocati\Nexi\XPayWeb\Build\Exception;
 use RuntimeException;
 
 class Entity
@@ -30,7 +30,7 @@ class Entity
     }
 
     /**
-     * @return \MLocati\Nexi\Build\API\Field[]
+     * @return \MLocati\Nexi\XPayWeb\Build\API\Field[]
      */
     public function getFields(): array
     {
@@ -71,8 +71,8 @@ class Entity
     }
 
     /**
-     * @throws \MLocati\Nexi\Build\Exception\IncompatibleEntity
-     * @throws \MLocati\Nexi\Build\Exception\IncompatibleField
+     * @throws \MLocati\Nexi\XPayWeb\Build\Exception\IncompatibleEntity
+     * @throws \MLocati\Nexi\XPayWeb\Build\Exception\IncompatibleField
      */
     public function merge(Entity $entity): void
     {

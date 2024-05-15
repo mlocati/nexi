@@ -9,10 +9,10 @@ if (PHP_VERSION_ID < 70200) {
 
 spl_autoload_register(
     static function ($class) {
-        if (strpos($class, 'MLocati\\Nexi\\') !== 0) {
+        if (strpos($class, 'MLocati\\Nexi\\XPayWeb\\') !== 0) {
             return;
         }
-        $file = __DIR__ . '/src' . str_replace('\\', '/', substr($class, strlen('MLocati\\Nexi'))) . '.php';
+        $file = __DIR__ . '/src' . str_replace('\\', '/', substr($class, strlen('MLocati\\Nexi\\XPayWeb'))) . '.php';
         if (is_file($file)) {
             require_once $file;
         }

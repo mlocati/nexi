@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi;
+namespace MLocati\Nexi\XPayWeb;
 
 interface CorrelationProvider
 {

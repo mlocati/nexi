@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\Parser;
+namespace MLocati\Nexi\XPayWeb\Build\Parser;
 
 use Generator;
-use MLocati\Nexi\Build\API;
-use MLocati\Nexi\Build\Parser;
+use MLocati\Nexi\XPayWeb\Build\API;
+use MLocati\Nexi\XPayWeb\Build\Parser;
 use RuntimeException;
 
 /**
@@ -19,7 +19,7 @@ class ISO639Parser implements Parser
     /**
      * {@inheritdoc}
      *
-     * @see \MLocati\Nexi\Build\Parser::shouldHandlePath()
+     * @see \MLocati\Nexi\XPayWeb\Build\Parser::shouldHandlePath()
      */
     public function shouldHandlePath(string $path): bool
     {
@@ -29,7 +29,7 @@ class ISO639Parser implements Parser
     /**
      * {@inheritdoc}
      *
-     * @see \MLocati\Nexi\Build\Parser::parse()
+     * @see \MLocati\Nexi\XPayWeb\Build\Parser::parse()
      */
     public function parse(string $see, string $path, string $contents, API $api): void
     {

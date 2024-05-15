@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\API\Field;
+namespace MLocati\Nexi\XPayWeb\Build\API\Field;
 
-use MLocati\Nexi\Build\API\Method\Definition;
+use MLocati\Nexi\XPayWeb\Build\API\Method\Definition;
 use RuntimeException;
 
 class Required

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Exception;
+namespace MLocati\Nexi\XPayWeb\Exception;
 
-use MLocati\Nexi\Exception;
+use MLocati\Nexi\XPayWeb\Exception;
 
 /**
  * Exception thrown when no HTTP client is available.

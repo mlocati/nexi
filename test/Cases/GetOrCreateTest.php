@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Test\Cases;
+namespace MLocati\Nexi\XPayWeb\Test\Cases;
 
-use MLocati\Nexi\Entity\CreateOrderForHostedPayment\Request;
-use MLocati\Nexi\Entity\Order;
+use MLocati\Nexi\XPayWeb\Entity\CreateOrderForHostedPayment\Request;
+use MLocati\Nexi\XPayWeb\Entity\Order;
 use PHPUnit\Framework\TestCase;
 
 class GetOrCreateTest extends TestCase

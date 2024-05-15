@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build;
+namespace MLocati\Nexi\XPayWeb\Build;
 
 use RuntimeException;
 

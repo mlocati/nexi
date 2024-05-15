@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Service;
+namespace MLocati\Nexi\XPayWeb\Service;
 
-use MLocati\Nexi\Exception;
+use MLocati\Nexi\XPayWeb\Exception;
 
 trait QueryEntityTrait
 {
     /**
      * {@inheritdoc}
      *
-     * @see \MLocati\Nexi\Service\QueryEntityInterface
+     * @see \MLocati\Nexi\XPayWeb\Service\QueryEntityInterface
      */
     public function getQuerystring(): string
     {

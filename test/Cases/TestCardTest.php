@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Test\Cases;
+namespace MLocati\Nexi\XPayWeb\Test\Cases;
 
-use MLocati\Nexi\Dictionary\TestCard;
-use MLocati\Nexi\Dictionary\TestCard\Card;
+use MLocati\Nexi\XPayWeb\Dictionary\TestCard;
+use MLocati\Nexi\XPayWeb\Dictionary\TestCard\Card;
 use PHPUnit\Framework\TestCase;
 
 class TestCardTest extends TestCase

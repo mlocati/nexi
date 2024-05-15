@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\API;
+namespace MLocati\Nexi\XPayWeb\Build\API;
 
-use MLocati\Nexi\Build\Exception;
+use MLocati\Nexi\XPayWeb\Build\Exception;
 use RuntimeException;
 
 class Field
@@ -19,7 +19,7 @@ class Field
     public string $default = '';
     public ?Entity $entity = null;
     /**
-     * @var \MLocati\Nexi\Build\API\Field\Required[]
+     * @var \MLocati\Nexi\XPayWeb\Build\API\Field\Required[]
      */
     private array $requiredByMethod = [];
 
@@ -104,7 +104,7 @@ class Field
     }
 
     /**
-     * @throws \MLocati\Nexi\Build\Exception\IncompatibleField
+     * @throws \MLocati\Nexi\XPayWeb\Build\Exception\IncompatibleField
      */
     public function isCompatibleWith(Field $field): bool
     {
@@ -119,7 +119,7 @@ class Field
     }
 
     /**
-     * @throws \MLocati\Nexi\Build\Exception\IncompatibleField
+     * @throws \MLocati\Nexi\XPayWeb\Build\Exception\IncompatibleField
      */
     public function merge(Field $field): void
     {

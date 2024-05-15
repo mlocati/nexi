@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\API;
+namespace MLocati\Nexi\XPayWeb\Build\API;
 
 enum Verb: string
 {

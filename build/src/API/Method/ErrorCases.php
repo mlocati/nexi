@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi\Build\API\Method;
+namespace MLocati\Nexi\XPayWeb\Build\API\Method;
 
 class ErrorCases
 {
     /**
-     * @var \MLocati\Nexi\Build\API\Method\ErrorCases\Item[]
+     * @var \MLocati\Nexi\XPayWeb\Build\API\Method\ErrorCases\Item[]
      */
     public readonly array $items;
     public readonly bool $isSomeItemUsingJson;
 
     /**
-     * @param \MLocati\Nexi\Build\API\Method\ErrorCases\Item[] $items
+     * @param \MLocati\Nexi\XPayWeb\Build\API\Method\ErrorCases\Item[] $items
      */
     public function __construct(array $items)
     {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MLocati\Nexi;
+namespace MLocati\Nexi\XPayWeb;
 
 use Closure;
 use JsonSerializable;
@@ -41,7 +41,7 @@ abstract class Entity implements JsonSerializable
      * @param string $method the method being invoked
      * @param string $case 'request' or 'response'
      *
-     * @throws \MLocati\Nexi\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
      */
     public function checkRequiredFields(string $method, string $case): void
     {
@@ -79,8 +79,8 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      */
     protected function _getString(string $fieldName, bool $required = false): ?string
     {
@@ -88,8 +88,8 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      *
      * @return string[]|null
      */
@@ -109,8 +109,8 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      */
     protected function _getInt(string $fieldName, bool $required = false): ?int
     {
@@ -118,8 +118,8 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      *
      * @return int[]|null
      */
@@ -139,8 +139,8 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      */
     protected function _getBool(string $fieldName, bool $allow01 = false, bool $required = false): ?bool
     {
@@ -160,8 +160,8 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      *
      * @return bool[]|null
      */
@@ -188,8 +188,8 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      */
     protected function _getEntity(string $fieldName, string $className, bool $required = false): ?Entity
     {
@@ -210,10 +210,10 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      *
-     * @return \MLocati\Nexi\Entity[]|null
+     * @return \MLocati\Nexi\XPayWeb\Entity[]|null
      */
     protected function _getEntityArray(string $fieldName, string $className, bool $required = false): ?array
     {
@@ -238,8 +238,8 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      *
      * @return object|array|null
      */
@@ -249,8 +249,8 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      *
      * @return object[]|array[]|null
      */
@@ -270,7 +270,7 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      *
      * @return $this
      */
@@ -280,7 +280,7 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      *
      * @return $this
      */
@@ -290,7 +290,7 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      *
      * @return $this
      */
@@ -300,7 +300,7 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      *
      * @return $this
      */
@@ -319,7 +319,7 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      *
      * @return $this
      */
@@ -333,7 +333,7 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      *
      * @return $this
      */
@@ -343,8 +343,8 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      */
     private function _get(string $fieldName, array $types, bool $required)
     {
@@ -364,8 +364,8 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
-     * @throws \MLocati\Nexi\Exception\WrongFieldType
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\WrongFieldType
      */
     private function _getArray(string $fieldName, bool $required, Closure $callback): ?array
     {
@@ -378,7 +378,7 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
      *
      * @return $this
      */
@@ -400,7 +400,7 @@ abstract class Entity implements JsonSerializable
     }
 
     /**
-     * @throws \MLocati\Nexi\Exception\MissingField
+     * @throws \MLocati\Nexi\XPayWeb\Exception\MissingField
      */
     private function checkRequiredFieldsWithPrefix(string $method, string $case, string $prefix): void
     {
