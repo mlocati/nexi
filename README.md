@@ -1,10 +1,10 @@
-[![Tests](https://github.com/mlocati/nexi/actions/workflows/test.yml/badge.svg)](https://github.com/mlocati/nexi/actions/workflows/test.yml)
+[![Tests](https://github.com/mlocati/nexi-xpay-web/actions/workflows/test.yml/badge.svg)](https://github.com/mlocati/nexi-xpay-web/actions/workflows/test.yml)
 
 # MLocati's unofficial Nexi XPay Web client library for PHP
 
 This project contains a PHP library that makes it easy to use the [Nexi](https://www.nexi.it) XPay Web APIs (for Intesa Sanpaolo bank).
 
-It has been built (almost) automatically from [the official documentation](https://developer.nexi.it/en) (see the [`/build`](https://github.com/mlocati/nexi/tree/main/build) directory, which is only available if you clone this repository).
+It has been built (almost) automatically from [the official documentation](https://developer.nexi.it/en) (see the [`/build`](https://github.com/mlocati/nexi-xpay-web/tree/main/build) directory, which is only available if you clone this repository).
 
 ## Installation
 
@@ -13,7 +13,7 @@ It has been built (almost) automatically from [the official documentation](https
 Simply run the following command:
 
 ```sh
-composer require mlocati/nexi
+composer require mlocati/nexi-xpay-web
 ```
 
 ### Manual installation
@@ -50,7 +50,7 @@ $configuration = new Configuration\FromArray(['apiKey' => 'your API key']);
 
 Of course you can override the default base URL (use the `baseUrl` array key).
 
-You can also use a custom class, provided it implements [the `MLocati\Nexi\XPayWeb\Configuration` interface](https://github.com/mlocati/nexi/blob/main/src/Configuration.php).
+You can also use a custom class, provided it implements [the `MLocati\Nexi\XPayWeb\Configuration` interface](https://github.com/mlocati/nexi-xpay-web/blob/main/src/Configuration.php).
 
 ### The Nexi Client
 
@@ -71,7 +71,7 @@ In order to do that, it automatically detects the best available way to do that:
 - if the [cURL PHP extension](https://www.php.net/manual/en/book.curl.php) is available, it uses it (see the `MLocati\Nexi\XPayWeb\HttpClient\Curl` class)
 - otherwise, if the [PHP HTTP stream wrapper](https://www.php.net/manual/en/context.http.php) is enabled, it uses it (it requires the [OpenSSL PHP extension](https://www.php.net/manual/en/book.openssl.php) - see the `MLocati\Nexi\XPayWeb\HttpClient\StreamWrapper` class)
 
-You can also provide your own implementation, provided it implements [the `MLocati\Nexi\XPayWeb\HttpClient` interface](https://github.com/mlocati/nexi/blob/main/src/HttpClient.php).
+You can also provide your own implementation, provided it implements [the `MLocati\Nexi\XPayWeb\HttpClient` interface](https://github.com/mlocati/nexi-xpay-web/blob/main/src/HttpClient.php).
 That way you can easily log the communication with the Nexi servers, as well as customize the HTTP client (for example because you are behind a proxy).
 
 For example, if you want to use your custom HTTP client implementation, you can simply write:
@@ -87,7 +87,7 @@ $client = new Client($configuration, $myHttpClient);
 
 Every request to the Nexi servers is associated to an unique identifier, sent via an HTTP header named `Correlation-Id`.
 By default, the Next client randomly generates it and doesn't store it.
-If you want to generate the value of the `Correlation-Id` header on your own, or if you want to log the generated `Correlation-Id` values, you can create a custom class that implements [the `MLocati\Nexi\XPayWeb\CorrelationProvider` interface](https://github.com/mlocati/nexi/blob/main/src/CorrelationProvider.php).
+If you want to generate the value of the `Correlation-Id` header on your own, or if you want to log the generated `Correlation-Id` values, you can create a custom class that implements [the `MLocati\Nexi\XPayWeb\CorrelationProvider` interface](https://github.com/mlocati/nexi-xpay-web/blob/main/src/CorrelationProvider.php).
 Then, when you create the Nexi client, you can write some code like this:
 
 ```php
