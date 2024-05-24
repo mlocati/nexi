@@ -4,6 +4,9 @@
 
 This project contains a PHP library that makes it easy to use the [Nexi](https://www.nexi.it) XPay Web APIs (for Intesa Sanpaolo bank).
 
+This requires an API Key.
+If instead you have a Terminal Alias and a MAC Key, you may need to use [this other library](https://github.com/mlocati/nexi-xpay).
+
 It has been built (almost) automatically from [the official documentation](https://developer.nexi.it/en) (see the [`/build`](https://github.com/mlocati/nexi-xpay-web/tree/main/build) directory, which is only available if you clone this repository).
 
 ## Installation
